@@ -20,3 +20,6 @@ console.log(modalDisplayFlex);
 
 modalDisplayFlex.remove();
 
+const createRow = (arr) => {
+  
+}
