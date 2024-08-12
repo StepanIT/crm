@@ -96,27 +96,41 @@ const goods = [
   },
 ];
 
-const createRow = (data) => {
+const createRow = ({id, title, category, units, count, price, images}) => {
   const newTr = document.createElement('tr');
 
-  for (const key in data) {
-    if (Object.prototype.hasOwnProperty.call(data, key)) {
-      const newTd = document.createElement('td');
-      newTd.textContent = data[key];
-      newTr.appendChild(newTd);
-    }
-  }
+  newTr.classList.add('table__body-item');
+
+  newTr.innerHTML = `
+    <td class="table__body-item__ID">${id}</td>
+    <td class="table__body-item__name">${title}</td>
+    <td class="table__body-item__category">${category}</td>
+    <td class="table__body-item__units">${units}</td>
+    <td class="table__body-item__quantity">${count}</td>
+    <td class="table__body-item__price">$${price}</td>
+    <td class="table__body-item__total">$${price * count}</td>
+    <td class="table__body-item-icons">
+    <button type="submit"
+     class="table__body-item-icons__btn">
+     <image src="${images.small}" alt="icon"></button>
+    <button type="submit"
+     class="table__body-item-icons__btn">
+     <image src="${images.small}" alt="icon"></button>
+    <button type="submit"
+     class="table__body-item-icons__btn">
+     <image src="${images.small}" alt="icon"></button>
+    </td>
+  `;
+
   return newTr;
 };
 
 const renderGoods = (goods) => {
   const newTbody = document.querySelector('.table__body');
-
   newTbody.innerHTML = '';
-
-  const rows = goods.map(item => createRow(item));
-
-  rows.forEach(row => newTbody.appendChild(row));
+  goods.map((el) => {
+    newTbody.append(createRow(el));
+  });
 };
 
 renderGoods(goods);
