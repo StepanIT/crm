@@ -196,8 +196,7 @@ renderGoods(goods);
 
 
 const btnOpenModal = document.querySelector('.panel__add-products');
-const closeModal = document.querySelector('.modal__close');
-
+const modalOverlay = document.querySelector('.overlay');
 const modalDisplayFlex = document.querySelector('.active');
 modalDisplayFlex.style.display = 'none';
 
@@ -205,12 +204,10 @@ btnOpenModal.addEventListener('click', () => {
   modalDisplayFlex.style.display = 'flex';
 });
 
-closeModal.addEventListener('click', () => {
-  modalDisplayFlex.style.display = 'none';
-});
-
-window.addEventListener('click', event => {
-  if (event.target === modalDisplayFlex) {
+modalOverlay.addEventListener('click', e => {
+  const target = e.target;
+  if (target === modalOverlay ||
+      target.closest('.modal__close')) {
     modalDisplayFlex.style.display = 'none';
-  }
+  };
 });
