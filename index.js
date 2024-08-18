@@ -18,7 +18,7 @@ console.log(modalnputdiscount);
 console.log(modaTotalPrice);
 
 
-const goods = [
+let goods = [
   {
     'id': 253842678,
     'title': 'Смартфон Xiaomi 11T 8/128GB',
@@ -97,6 +97,7 @@ const createRow = ({id, title, category, units, count, price, images}) => {
   const newTr = document.createElement('tr');
 
   newTr.classList.add('table__body-item');
+  newTr.dataset.id = id;
 
   newTr.innerHTML = `
     <td class="table__body-item__ID">${id}</td>
@@ -190,16 +191,19 @@ const renderGoods = (goods) => {
   goods.map((el) => {
     newTbody.append(createRow(el));
   });
-
-
-  document.querySelector('.table__body').addEventListener('click', e => {
-    const target = e.target;
-    if (target.closest('.btn-del')) {
-      target.closest('tr').remove();
-      console.log(goods);
-    }
-  });
 };
+
+
+document.querySelector('.table__body').addEventListener('click', e => {
+  const target = e.target;
+  if (target.closest('.btn-del')) {
+    const row = target.closest('.table__body-item');
+    const id = parseInt(row.dataset.id);
+    goods = goods.filter(item => item.id !== id);
+    target.closest('.table__body-item').remove();
+    console.log(goods);
+  }
+});
 
 renderGoods(goods);
 
