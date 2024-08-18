@@ -158,7 +158,7 @@ const createRow = ({id, title, category, units, count, price, images}) => {
           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <button class="table__body-item-icons__btn">
+      <button class="table__body-item-icons__btn btn-del">
         <svg width="20" height="20" viewBox="0 0 20 20"
         fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M7.03125 3.59375H6.875C6.96094 3.59375
@@ -190,6 +190,15 @@ const renderGoods = (goods) => {
   goods.map((el) => {
     newTbody.append(createRow(el));
   });
+
+
+  document.querySelector('.table__body').addEventListener('click', e => {
+    const target = e.target;
+    if (target.closest('.btn-del')) {
+      target.closest('tr').remove();
+      console.log(goods);
+    }
+  });
 };
 
 renderGoods(goods);
@@ -209,5 +218,5 @@ modalOverlay.addEventListener('click', e => {
   if (target === modalOverlay ||
       target.closest('.modal__close')) {
     modalDisplayFlex.style.display = 'none';
-  };
+  }
 });
