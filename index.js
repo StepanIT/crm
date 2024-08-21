@@ -3,7 +3,6 @@
 const modalTitle = document.querySelector('.modal__title');
 const modalVendorCode = document.querySelector('.vendor-code__wrapper');
 const modalVendorCodeId = document.querySelector('.vendor-code__id');
-const modalForm = document.querySelector('.modal__form');
 const modalCheckbox = document.querySelector('.modal__checkbox');
 const modalnputdiscount = document.querySelector('.modal__input_discount');
 const modaTotalPrice = document.querySelector('.modal__total-price');
@@ -12,7 +11,6 @@ const modaTotalPrice = document.querySelector('.modal__total-price');
 console.log(modalTitle);
 console.log(modalVendorCode);
 console.log(modalVendorCodeId);
-console.log(modalForm);
 console.log(modalCheckbox);
 console.log(modalnputdiscount);
 console.log(modaTotalPrice);
@@ -223,4 +221,14 @@ modalOverlay.addEventListener('click', e => {
       target.closest('.modal__close')) {
     modalDisplayFlex.style.display = 'none';
   }
+});
+
+
+const form = document.querySelector('.modal__form');
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  console.log(form.name.value);
+  console.log(form.category.value);
 });
