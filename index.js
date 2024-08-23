@@ -233,3 +233,29 @@ modalCheckbox.addEventListener('change', () => {
     modalCheckboxInput.value = '';
   }
 });
+
+const modalForm = document.querySelector('.modal__form')
+
+modalForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const newProduct = {
+    id: Date.now().toString().slice(-9),
+    title: modalForm.name.value,
+    category: modalForm.category.value,
+    price: parseFloat(modalForm.price.value),
+    count: parseInt(modalForm.count.value),
+    units: modalForm.units.value,
+    discont: modalCheckbox.checked ? parseFloat(modalCheckboxInput.value) : false,
+    images: {
+      small: '',
+      big: '',
+    }
+  };
+
+  goods.push(newProduct);
+  renderGoods(goods);
+
+  modalForm.reset();
+  modalDisplayFlex.style.display = 'none';
+});
