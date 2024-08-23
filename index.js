@@ -100,9 +100,9 @@ const calculateTotalPrice = () => {
   modaTotalPrice.value = `$${totalPrice}`;
 };
 
-modaInputPrice.addEventListener('input', calculateTotalPrice);
-modaInputCount.addEventListener('input', calculateTotalPrice);
-modaInputDiscount.addEventListener('input', calculateTotalPrice);
+modaInputPrice.addEventListener('change', calculateTotalPrice);
+modaInputCount.addEventListener('change', calculateTotalPrice);
+modaInputDiscount.addEventListener('change', calculateTotalPrice);
 
 
 const totalSumElement = document.querySelector('.cms__total-price');
