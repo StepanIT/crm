@@ -1,19 +1,4 @@
 'use strict';
-
-const modalTitle = document.querySelector('.modal__title');
-const modalVendorCode = document.querySelector('.vendor-code__wrapper');
-const modalVendorCodeId = document.querySelector('.vendor-code__id');
-const modalnputdiscount = document.querySelector('.modal__input_discount');
-const modaTotalPrice = document.querySelector('.modal__total-price');
-
-
-console.log(modalTitle);
-console.log(modalVendorCode);
-console.log(modalVendorCodeId);
-console.log(modalnputdiscount);
-console.log(modaTotalPrice);
-
-
 let goods = [
   {
     'id': 253842678,
@@ -88,6 +73,49 @@ let goods = [
     },
   },
 ];
+// const modalTitle = document.querySelector('.modal__title');
+// const modalVendorCode = document.querySelector('.vendor-code__wrapper');
+// const modalVendorCodeId = document.querySelector('.vendor-code__id');
+// const modalQuantityInput = document.querySelector('.modal__input_quantity');
+
+// console.log(modalTitle);
+// console.log(modalVendorCode);
+// console.log(modalVendorCodeId);
+
+const modaInputPrice = document.querySelector('.modal__input_price');
+const modaInputDiscount = document.querySelector('.modal__input_discount');
+const modaInputCount = document.querySelector('.modal__input_count');
+const modaTotalPrice = document.querySelector('.modal__total-price');
+
+const calculateTotalPrice = () => {
+  const price = parseFloat(modaInputPrice.value) || 0;
+  const count = parseInt(modaInputCount.value) || 0;
+  const discont = parseFloat(modaInputDiscount.value) || 0;
+
+  let totalPrice = price * count;
+
+  if (discont > 0) {
+    totalPrice -= totalPrice * (discont / 100);
+  }
+  modaTotalPrice.value = `$${totalPrice}`;
+};
+
+modaInputPrice.addEventListener('input', calculateTotalPrice);
+modaInputCount.addEventListener('input', calculateTotalPrice);
+modaInputDiscount.addEventListener('input', calculateTotalPrice);
+
+
+const totalSumElement = document.querySelector('.cms__total-price');
+
+const updateTotalSum = () => {
+  const totalSum = goods.reduce((sum, item) => {
+    const itemTotal = item.price * item.count;
+    return sum + itemTotal;
+  }, 0);
+
+  totalSumElement.textContent = `$${totalSum}`;
+};
+
 
 const createRow = ({id, title, category, units, count, price, images}) => {
   const newTr = document.createElement('tr');
@@ -187,6 +215,7 @@ const renderGoods = (goods) => {
   goods.map((el) => {
     newTbody.append(createRow(el));
   });
+  updateTotalSum();
 };
 
 
@@ -198,6 +227,7 @@ document.querySelector('.table__body').addEventListener('click', e => {
     goods = goods.filter(item => item.id !== id);
     target.closest('.table__body-item').remove();
     console.log(goods);
+    updateTotalSum();
   }
 });
 
@@ -211,6 +241,7 @@ modalDisplayFlex.style.display = 'none';
 
 btnOpenModal.addEventListener('click', () => {
   modalDisplayFlex.style.display = 'flex';
+  calculateTotalPrice();
 });
 
 modalOverlay.addEventListener('click', e => {
@@ -234,7 +265,7 @@ modalCheckbox.addEventListener('change', () => {
   }
 });
 
-const modalForm = document.querySelector('.modal__form')
+const modalForm = document.querySelector('.modal__form');
 
 modalForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -246,16 +277,16 @@ modalForm.addEventListener('submit', e => {
     price: parseFloat(modalForm.price.value),
     count: parseInt(modalForm.count.value),
     units: modalForm.units.value,
-    discont: modalCheckbox.checked ? parseFloat(modalCheckboxInput.value) : false,
+    discont:
+    modalCheckbox.checked ? parseFloat(modalCheckboxInput.value) : false,
     images: {
       small: '',
       big: '',
-    }
+    },
   };
 
   goods.push(newProduct);
   renderGoods(goods);
-
   modalForm.reset();
   modalDisplayFlex.style.display = 'none';
 });
