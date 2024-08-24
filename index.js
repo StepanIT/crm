@@ -109,7 +109,11 @@ const totalSumElement = document.querySelector('.cms__total-price');
 
 const updateTotalSum = () => {
   const totalSum = goods.reduce((sum, item) => {
-    const itemTotal = item.price * item.count;
+    let itemTotal = item.price * item.count;
+
+    if (item.discont > 0) {
+      itemTotal -= itemTotal * (item.discont / 100);
+    }
     return sum + itemTotal;
   }, 0);
 
@@ -216,8 +220,10 @@ const renderGoods = (goods) => {
     newTbody.append(createRow(el));
   });
   updateTotalSum();
+  console.log(goods);
 };
 
+renderGoods(goods);
 
 document.querySelector('.table__body').addEventListener('click', e => {
   const target = e.target;
@@ -225,13 +231,13 @@ document.querySelector('.table__body').addEventListener('click', e => {
     const row = target.closest('.table__body-item');
     const id = parseInt(row.dataset.id);
     goods = goods.filter(item => item.id !== id);
-    target.closest('.table__body-item').remove();
-    console.log(goods);
+    row.remove();
     updateTotalSum();
+    console.log(goods);
   }
 });
 
-renderGoods(goods);
+
 
 
 const btnOpenModal = document.querySelector('.panel__add-products');
@@ -263,6 +269,7 @@ modalCheckbox.addEventListener('change', () => {
     modalCheckboxInput.disabled = true;
     modalCheckboxInput.value = '';
   }
+  calculateTotalPrice();
 });
 
 const modalForm = document.querySelector('.modal__form');
@@ -271,7 +278,7 @@ modalForm.addEventListener('submit', e => {
   e.preventDefault();
 
   const newProduct = {
-    id: Date.now().toString().slice(-9),
+    id: parseInt(Date.now().toString().slice(-9), 10),
     title: modalForm.name.value,
     category: modalForm.category.value,
     price: parseFloat(modalForm.price.value),
@@ -286,7 +293,9 @@ modalForm.addEventListener('submit', e => {
   };
 
   goods.push(newProduct);
+  console.log(newProduct);
   renderGoods(goods);
+  console.log(goods);
   modalForm.reset();
   modalDisplayFlex.style.display = 'none';
 });
