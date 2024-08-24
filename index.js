@@ -238,8 +238,6 @@ document.querySelector('.table__body').addEventListener('click', e => {
 });
 
 
-
-
 const btnOpenModal = document.querySelector('.panel__add-products');
 const modalOverlay = document.querySelector('.overlay');
 const modalDisplayFlex = document.querySelector('.active');
