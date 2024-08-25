@@ -121,20 +121,22 @@ const updateTotalSum = () => {
 };
 
 
-const createRow = ({id, title, category, units, count, price, images}) => {
-  const newTr = document.createElement('tr');
+const createRow =
+ ({id, title, category, units, count, price, images, discont}) => {
+   const newTr = document.createElement('tr');
 
-  newTr.classList.add('table__body-item');
-  newTr.dataset.id = id;
+   newTr.classList.add('table__body-item');
+   newTr.dataset.id = id;
 
-  newTr.innerHTML = `
+   newTr.innerHTML = `
     <td class="table__body-item__ID">${id}</td>
     <td class="table__body-item__name">${title}</td>
     <td class="table__body-item__category">${category}</td>
     <td class="table__body-item__units">${units}</td>
     <td class="table__body-item__quantity">${count}</td>
     <td class="table__body-item__price">$${price}</td>
-    <td class="table__body-item__total">$${price * count}</td>
+    <td class="table__body-item__total">
+    $${(price * count) - ((price * count) * (discont / 100))}</td>
     <td class="table__body-item-icons">
       <button class="table__body-item-icons__btn">
         <svg width="20" height="20" viewBox="0 0 20 20"
@@ -210,8 +212,8 @@ const createRow = ({id, title, category, units, count, price, images}) => {
     </td>
   `;
 
-  return newTr;
-};
+   return newTr;
+ };
 
 const renderGoods = (goods) => {
   const newTbody = document.querySelector('.table__body');
