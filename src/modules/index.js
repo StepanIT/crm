@@ -1,4 +1,5 @@
-'use strict';
+import { getElements } from './elements.js';
+const elements = getElements();
 let goods = [
   {
     'id': 253842678,
@@ -82,30 +83,23 @@ let goods = [
 // console.log(modalVendorCode);
 // console.log(modalVendorCodeId);
 
-const modaInputPrice = document.querySelector('.modal__input_price');
-const modaInputDiscount = document.querySelector('.modal__input_discount');
-const modaInputCount = document.querySelector('.modal__input_count');
-const modaTotalPrice = document.querySelector('.modal__total-price');
-
 const calculateTotalPrice = () => {
-  const price = parseFloat(modaInputPrice.value) || 0;
-  const count = parseInt(modaInputCount.value) || 0;
-  const discont = parseFloat(modaInputDiscount.value) || 0;
+  const price = parseFloat(elements.modaInputPrice.value) || 0;
+  const count = parseInt(elements.modaInputCount.value) || 0;
+  const discont = parseFloat(elements.modaInputDiscount.value) || 0;
 
   let totalPrice = price * count;
 
   if (discont > 0) {
     totalPrice -= totalPrice * (discont / 100);
   }
-  modaTotalPrice.value = `$${totalPrice}`;
+  elements.modaTotalPrice.value = `$${totalPrice}`;
 };
 
-modaInputPrice.addEventListener('change', calculateTotalPrice);
-modaInputCount.addEventListener('change', calculateTotalPrice);
-modaInputDiscount.addEventListener('change', calculateTotalPrice);
+elements.modaInputPrice.addEventListener('change', calculateTotalPrice);
+elements.modaInputCount.addEventListener('change', calculateTotalPrice);
+elements.modaInputDiscount.addEventListener('change', calculateTotalPrice);
 
-
-const totalSumElement = document.querySelector('.cms__total-price');
 
 const updateTotalSum = () => {
   const totalSum = goods.reduce((sum, item) => {
@@ -117,7 +111,7 @@ const updateTotalSum = () => {
     return sum + itemTotal;
   }, 0);
 
-  totalSumElement.textContent = `$${totalSum}`;
+  elements.totalSumElement.textContent = `$${totalSum}`;
 };
 
 
@@ -240,52 +234,49 @@ document.querySelector('.table__body').addEventListener('click', e => {
 });
 
 
-const btnOpenModal = document.querySelector('.panel__add-products');
-const modalOverlay = document.querySelector('.overlay');
-const modalDisplayFlex = document.querySelector('.active');
-modalDisplayFlex.style.display = 'none';
 
-btnOpenModal.addEventListener('click', () => {
-  modalDisplayFlex.style.display = 'flex';
+elements.modalDisplayFlex.style.display = 'none';
+
+elements.btnOpenModal.addEventListener('click', () => {
+  elements.modalDisplayFlex.style.display = 'flex';
   calculateTotalPrice();
 });
 
-modalOverlay.addEventListener('click', e => {
+elements.modalOverlay.addEventListener('click', e => {
   const target = e.target;
-  if (target === modalOverlay ||
+  if (target === elements.modalOverlay ||
       target.closest('.modal__close')) {
     modalDisplayFlex.style.display = 'none';
   }
 });
 
 
-const modalCheckbox = document.querySelector('.modal__checkbox');
-const modalCheckboxInput = document.querySelector('.modal__input_discount');
 
-modalCheckbox.addEventListener('change', () => {
-  if (modalCheckbox.checked) {
-    modalCheckboxInput.disabled = false;
+
+elements.modalCheckbox.addEventListener('change', () => {
+  if (elements.modalCheckbox.checked) {
+    elements.modalCheckboxInput.disabled = false;
   } else {
-    modalCheckboxInput.disabled = true;
-    modalCheckboxInput.value = '';
+    elements.modalCheckboxInput.disabled = true;
+    elements.modalCheckboxInput.value = '';
   }
   calculateTotalPrice();
 });
 
-const modalForm = document.querySelector('.modal__form');
 
-modalForm.addEventListener('submit', e => {
+
+elements.modalForm.addEventListener('submit', e => {
   e.preventDefault();
 
   const newProduct = {
     id: parseInt(Date.now().toString().slice(-9), 10),
-    title: modalForm.name.value,
-    category: modalForm.category.value,
-    price: parseFloat(modalForm.price.value),
-    count: parseInt(modalForm.count.value),
-    units: modalForm.units.value,
+    title: elements.modalForm.name.value,
+    category: elements.modalForm.category.value,
+    price: parseFloat(elements.modalForm.price.value),
+    count: parseInt(elements.modalForm.count.value),
+    units: elements.modalForm.units.value,
     discont:
-    modalCheckbox.checked ? parseFloat(modalCheckboxInput.value) : false,
+    elements.modalCheckbox.checked ? parseFloat(elements.modalCheckboxInput.value) : false,
     images: {
       small: '',
       big: '',
@@ -296,6 +287,6 @@ modalForm.addEventListener('submit', e => {
   console.log(newProduct);
   renderGoods(goods);
   console.log(goods);
-  modalForm.reset();
-  modalDisplayFlex.style.display = 'none';
+  elements.modalForm.reset();
+  elements.modalDisplayFlex.style.display = 'none';
 });
