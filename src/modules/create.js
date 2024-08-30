@@ -1,4 +1,4 @@
-import { getSum } from './calculations.js';
+import {getSum} from './calculations.js';
 
 export const createRow =
  ({id, title, category, units, count, price, images, discont}) => {

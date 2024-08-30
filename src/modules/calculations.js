@@ -5,9 +5,7 @@ export const getSum = (price, count, discont) => {
   return price * count * setDiscount(discont);
 };
 
-export const getTotalSum = (prices = []) => {
-  return prices.reduce(
-    (acc, { count, price, discont }) => acc + getSum(price, count, discont),
-    0
-  );
-};
+export const getTotalSum = (prices = []) => prices.reduce(
+    (acc, {count, price, discont}) => acc + getSum(price, count, discont),
+    0,
+);

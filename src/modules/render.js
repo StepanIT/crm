@@ -1,5 +1,5 @@
-import { getTotalSum } from './calculations.js';
-import { createRow } from './create.js';
+import {getTotalSum} from './calculations.js';
+import {createRow} from './create.js';
 
 export const renderGoods = (data, tbody) => {
   tbody.innerHTML = '';

@@ -1,6 +1,6 @@
-import { getElements } from './elements.js';
-import { getSum } from './calculations.js';
-import { renderGoods, newTotalSum } from './render.js';
+import {getElements} from './elements.js';
+import {getSum} from './calculations.js';
+import {renderGoods, newTotalSum} from './render.js';
 
 const elements = getElements();
 
@@ -90,6 +90,24 @@ export const removeGoodsById = (id) => {
   }
 };
 
+export const closeModal = () => {
+  elements.modalOverlay.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target === elements.modalOverlay || target.closest('.modal__close')) {
+      elements.modalDisplayFlex.style.display = 'none';
+    }
+  });
+};
+
+export const updateTotalPrice = () => {
+  elements.modalForm.addEventListener('change', (e) => {
+    const price = parseFloat(elements.modaInputPrice.value) || 0;
+    const count = parseInt(elements.modaInputCount.value) || 0;
+    const discont = parseFloat(elements.modaInputDiscount.value) || 0;
+    elements.modaTotalPrice.value = `$${getSum(price, count, discont)}`;
+  });
+};
+
 export const changeCheckbox = () => {
   elements.modalCheckbox.addEventListener('change', () => {
     elements.modalCheckboxInput.disabled = !elements.modalCheckbox.checked;
@@ -107,22 +125,6 @@ export const openModal = () => {
   });
 };
 
-export const closeModal = () => {
-  elements.modalOverlay.addEventListener('click', (e) => {
-    const target = e.target;
-    if (target === elements.modalOverlay || target.closest('.modal__close')) {
-      elements.modalDisplayFlex.style.display = 'none';
-    }
-  });
-};
-
-export const updateTotalPrice = () => {
-  const price = parseFloat(elements.modaInputPrice.value) || 0;
-  const count = parseInt(elements.modaInputCount.value) || 0;
-  const discont = parseFloat(elements.modaInputDiscount.value) || 0;
-  elements.modaTotalPrice.value = `$${getSum(price, count, discont)}`;
-};
-
 export const addNewProduct = (data) => {
   elements.modalForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -133,9 +135,9 @@ export const addNewProduct = (data) => {
       price: parseFloat(elements.modalForm.price.value),
       count: parseInt(elements.modalForm.count.value),
       units: elements.modalForm.units.value,
-      discont: elements.modalCheckbox.checked
-        ? parseFloat(elements.modalCheckboxInput.value)
-        : false,
+      discont: elements.modalCheckbox.checked ?
+        parseFloat(elements.modalCheckboxInput.value) :
+        false,
       images: {
         small: '',
         big: '',
@@ -162,6 +164,8 @@ export const delProduct = (tbody, data) => {
   });
 };
 
-elements.modaInputPrice.addEventListener('change', updateTotalPrice);
-elements.modaInputCount.addEventListener('change', updateTotalPrice);
-elements.modaInputDiscount.addEventListener('change', updateTotalPrice);
+export const priceChange = () => {
+  elements.modaInputPrice.addEventListener('change', updateTotalPrice);
+  elements.modaInputCount.addEventListener('change', updateTotalPrice);
+  elements.modaInputDiscount.addEventListener('change', updateTotalPrice);
+};
