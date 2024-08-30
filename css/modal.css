@@ -12,7 +12,7 @@
 }
 
 .active {
-  display: flex;
+  display: none;
 }
 
 .overlay__modal {

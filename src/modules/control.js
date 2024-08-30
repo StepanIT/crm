@@ -1,3 +1,9 @@
+import { getElements } from './elements.js';
+import { getSum } from './calculations.js';
+import { renderGoods, newTotalSum } from './render.js';
+
+const elements = getElements();
+
 export const goods = [
   {
     'id': 253842678,
@@ -78,8 +84,84 @@ export const addGoods = (item) => {
 };
 
 export const removeGoodsById = (id) => {
-  const index = goods.findIndex(item => item.id === id);
+  const index = goods.findIndex((item) => item.id === id);
   if (index !== -1) {
     goods.splice(index, 1);
   }
 };
+
+export const changeCheckbox = () => {
+  elements.modalCheckbox.addEventListener('change', () => {
+    elements.modalCheckboxInput.disabled = !elements.modalCheckbox.checked;
+    if (!elements.modalCheckbox.checked) {
+      elements.modalCheckboxInput.value = '';
+    }
+    updateTotalPrice();
+  });
+};
+
+export const openModal = () => {
+  elements.btnOpenModal.addEventListener('click', () => {
+    elements.modalDisplayFlex.style.display = 'flex';
+    updateTotalPrice();
+  });
+};
+
+export const closeModal = () => {
+  elements.modalOverlay.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target === elements.modalOverlay || target.closest('.modal__close')) {
+      elements.modalDisplayFlex.style.display = 'none';
+    }
+  });
+};
+
+export const updateTotalPrice = () => {
+  const price = parseFloat(elements.modaInputPrice.value) || 0;
+  const count = parseInt(elements.modaInputCount.value) || 0;
+  const discont = parseFloat(elements.modaInputDiscount.value) || 0;
+  elements.modaTotalPrice.value = `$${getSum(price, count, discont)}`;
+};
+
+export const addNewProduct = (data) => {
+  elements.modalForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const newProduct = {
+      id: parseInt(Date.now().toString().slice(-9), 10),
+      title: elements.modalForm.name.value,
+      category: elements.modalForm.category.value,
+      price: parseFloat(elements.modalForm.price.value),
+      count: parseInt(elements.modalForm.count.value),
+      units: elements.modalForm.units.value,
+      discont: elements.modalCheckbox.checked
+        ? parseFloat(elements.modalCheckboxInput.value)
+        : false,
+      images: {
+        small: '',
+        big: '',
+      },
+    };
+    addGoods(newProduct);
+    renderGoods(data, elements.tableBody);
+    newTotalSum(elements.totalSumElement, data);
+    elements.modalForm.reset();
+    elements.modalDisplayFlex.style.display = 'none';
+  });
+};
+
+export const delProduct = (tbody, data) => {
+  tbody.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target.closest('.btn-del')) {
+      const row = target.closest('.table__body-item');
+      const id = parseInt(row.dataset.id);
+      removeGoodsById(id);
+      renderGoods(data, tbody);
+      newTotalSum(elements.totalSumElement, data);
+    }
+  });
+};
+
+elements.modaInputPrice.addEventListener('change', updateTotalPrice);
+elements.modaInputCount.addEventListener('change', updateTotalPrice);
+elements.modaInputDiscount.addEventListener('change', updateTotalPrice);

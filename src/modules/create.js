@@ -1,3 +1,5 @@
+import { getSum } from './calculations.js';
+
 export const createRow =
  ({id, title, category, units, count, price, images, discont}) => {
    const newTr = document.createElement('tr');
@@ -13,7 +15,7 @@ export const createRow =
     <td class="table__body-item__quantity">${count}</td>
     <td class="table__body-item__price">$${price}</td>
     <td class="table__body-item__total">
-    $${(price * count) - ((price * count) * (discont / 100))}</td>
+    $${getSum(price, count, discont)}</td>
     <td class="table__body-item-icons">
       <button class="table__body-item-icons__btn">
         <svg width="20" height="20" viewBox="0 0 20 20"

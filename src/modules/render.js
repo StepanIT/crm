@@ -1,16 +1,14 @@
-import {updateTotalSum} from './calculations.js';
-import {createRow} from './create.js';
-import {goods} from './control.js';
+import { getTotalSum } from './calculations.js';
+import { createRow } from './create.js';
 
-
-export const renderGoods = (goods) => {
-  const newTbody = document.querySelector('.table__body');
-  newTbody.innerHTML = '';
-  goods.map((el) => {
-    newTbody.append(createRow(el));
+export const renderGoods = (data, tbody) => {
+  tbody.innerHTML = '';
+  data.forEach((el) => {
+    tbody.append(createRow(el));
   });
-  updateTotalSum();
-  console.log(goods);
 };
 
-renderGoods(goods);
+export const newTotalSum = (totalSumElement, data) => {
+  totalSumElement.textContent = `$${getTotalSum(data)}`;
+};
+
