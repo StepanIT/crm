@@ -79,24 +79,20 @@ export const goods = [
   },
 ];
 
-export const addGoods = (item) => {
+const addGoods = (item) => {
   goods.push(item);
 };
 
-export const removeGoodsById = (id) => {
+const removeGoodsById = (id) => {
   const index = goods.findIndex((item) => item.id === id);
   if (index !== -1) {
     goods.splice(index, 1);
   }
 };
 
-export const closeModal = () => {
-  elements.modalOverlay.addEventListener('click', (e) => {
-    const target = e.target;
-    if (target === elements.modalOverlay || target.closest('.modal__close')) {
-      elements.modalDisplayFlex.style.display = 'none';
-    }
-  });
+const resetModalForm = () => {
+  elements.modalForm.reset();
+  elements.modaTotalPrice.value = '$0';
 };
 
 export const updateTotalPrice = () => {
@@ -108,7 +104,21 @@ export const updateTotalPrice = () => {
   });
 };
 
-export const changeCheckbox = () => {
+
+export const modalListener = () => {
+  elements.btnOpenModal.addEventListener('click', () => {
+    elements.modalDisplayFlex.style.display = 'flex';
+    resetModalForm();
+    updateTotalPrice();
+  });
+
+  elements.modalOverlay.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target === elements.modalOverlay || target.closest('.modal__close')) {
+      elements.modalDisplayFlex.style.display = 'none';
+    }
+  });
+
   elements.modalCheckbox.addEventListener('change', () => {
     elements.modalCheckboxInput.disabled = !elements.modalCheckbox.checked;
     if (!elements.modalCheckbox.checked) {
@@ -118,14 +128,7 @@ export const changeCheckbox = () => {
   });
 };
 
-export const openModal = () => {
-  elements.btnOpenModal.addEventListener('click', () => {
-    elements.modalDisplayFlex.style.display = 'flex';
-    updateTotalPrice();
-  });
-};
-
-export const addNewProduct = (data) => {
+export const productListener = (tbody, data) => {
   elements.modalForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const newProduct = {
@@ -149,9 +152,7 @@ export const addNewProduct = (data) => {
     elements.modalForm.reset();
     elements.modalDisplayFlex.style.display = 'none';
   });
-};
 
-export const delProduct = (tbody, data) => {
   tbody.addEventListener('click', (e) => {
     const target = e.target;
     if (target.closest('.btn-del')) {
@@ -162,10 +163,4 @@ export const delProduct = (tbody, data) => {
       newTotalSum(elements.totalSumElement, data);
     }
   });
-};
-
-export const priceChange = () => {
-  elements.modaInputPrice.addEventListener('change', updateTotalPrice);
-  elements.modaInputCount.addEventListener('change', updateTotalPrice);
-  elements.modaInputDiscount.addEventListener('change', updateTotalPrice);
 };
