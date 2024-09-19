@@ -17,7 +17,7 @@ export const createRow =
     <td class="table__body-item__total">
     $${getSum(price, count, discont)}</td>
     <td class="table__body-item-icons">
-      <button class="table__body-item-icons__btn">
+      <button class="table__body-item-icons__btn btn-image" data-pic="https://blog.100ct.by/wp-content/uploads/2023/02/1-7.webp"">
         <svg width="20" height="20" viewBox="0 0 20 20"
         fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18.75 2.13375L17.8663 1.25L1.25

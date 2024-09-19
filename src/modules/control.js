@@ -153,6 +153,15 @@ export const productListener = (tbody, data) => {
     elements.modalDisplayFlex.style.display = 'none';
   });
 
+  document.querySelector('.table__body').addEventListener('click', e => {
+    const target = e.target;
+    if (target.closest('.btn-image')) {
+      const imgUrl = target.closest('.btn-image').dataset.pic;
+      open(imgUrl, '', `width=600,height=600,top=${(screen.height - 700) / 2},
+        left=${(screen.width - 700) / 2}`);
+    }
+  });
+
   tbody.addEventListener('click', (e) => {
     const target = e.target;
     if (target.closest('.btn-del')) {
