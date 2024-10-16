@@ -1,3 +1,5 @@
+import {fetchGoods, addProductToServer, deleteProductFromServer}
+  from './api.js';
 import {getElements} from './elements.js';
 import {getSum} from './calculations.js';
 import {renderGoods, newTotalSum} from './render.js';
@@ -83,7 +85,6 @@ const addGoods = (item) => {
   if (item.id) {
     goods.push(item);
   } else {
-    // Генерация ID для новых товаров
     item.id = parseInt(Date.now().toString().slice(-9), 10);
     goods.push(item);
   }
@@ -135,28 +136,56 @@ export const modalListener = () => {
   });
 };
 
+const displayErrorMessage = (message) => {
+  const errorBlock = document.createElement('div');
+  errorBlock.className = 'error-message';
+  errorBlock.textContent = message;
+  elements.modalForm.insertBefore(
+      errorBlock, elements.modalForm.querySelector('.modal__buttons'));
+};
+
 export const productListener = (tbody, data) => {
-  elements.modalForm.addEventListener('submit', (e) => {
+  elements.modalForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const newProduct = {
-      id: null, // Убираем генерацию ID
       title: elements.modalForm.name.value,
       category: elements.modalForm.category.value,
       price: parseFloat(elements.modalForm.price.value),
+      // description: elements.modalForm.description.value,
       count: parseInt(elements.modalForm.count.value),
       units: elements.modalForm.units.value,
-      discont: elements.modalCheckbox.checked ? parseFloat(elements.modalCheckboxInput.value) : false,
+      discont: elements.modalCheckbox.checked ?
+       parseFloat(elements.modalCheckboxInput.value) : false,
       images: {
         small: '',
         big: '',
       },
     };
-    addGoods(newProduct);
-    renderGoods(data, elements.tableBody);
-    newTotalSum(elements.totalSumElement, data);
-    elements.modalForm.reset();
-    elements.modalDisplayFlex.style.display = 'none';
+
+    try {
+      const savedProduct = await
+      addProductToServer(newProduct);
+      addGoods(savedProduct);
+      const responseData = await fetchGoods();
+      const updatedGoods = Array.isArray(responseData) ?
+       responseData : responseData.goods;
+
+      renderGoods(updatedGoods, tbody);
+      newTotalSum(elements.totalSumElement, updatedGoods);
+      elements.modalDisplayFlex.style.display =
+      'none';
+    } catch (error) {
+      displayErrorMessage(error.message);
+    }
   });
+
+  elements.modalForm.addEventListener('focus', () => {
+    const existingError = elements.modalForm.querySelector('.error-message');
+    if (existingError) {
+      existingError.remove();
+    }
+  }, true);
 
   document.querySelector('.table__body').addEventListener('click', e => {
     const target = e.target;
@@ -167,14 +196,35 @@ export const productListener = (tbody, data) => {
     }
   });
 
-  tbody.addEventListener('click', (e) => {
+  tbody.addEventListener('click', async (e) => {
     const target = e.target;
+
     if (target.closest('.btn-del')) {
       const row = target.closest('.table__body-item');
       const id = parseInt(row.dataset.id);
-      removeGoodsById(id);
-      renderGoods(data, tbody);
-      newTotalSum(elements.totalSumElement, data);
+
+      const confirmation = confirm(
+          'Вы уверены, что хотите удалить этот товар?');
+      if (!confirmation) return;
+
+      try {
+        const isDeleted = await deleteProductFromServer(id);
+        console.log('Удаление товара:', isDeleted);
+
+
+        if (isDeleted) {
+          removeGoodsById(id);
+
+          const responseData = await fetchGoods();
+          const updatedGoods = Array.isArray(responseData) ?
+           responseData : responseData.goods;
+
+          renderGoods(updatedGoods, tbody);
+          newTotalSum(elements.totalSumElement, updatedGoods);
+        }
+      } catch (error) {
+        alert('Не удалось удалить товар. Попробуйте снова.');
+      }
     }
   });
 };
