@@ -152,7 +152,7 @@ export const productListener = (tbody, data) => {
       title: elements.modalForm.name.value,
       category: elements.modalForm.category.value,
       price: parseFloat(elements.modalForm.price.value),
-      // description: elements.modalForm.description.value,
+      description: elements.modalForm.description.value,
       count: parseInt(elements.modalForm.count.value),
       units: elements.modalForm.units.value,
       discont: elements.modalCheckbox.checked ?

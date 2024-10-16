@@ -12,6 +12,24 @@ export const fetchGoods = async () => {
   }
 };
 
+const showErrorModal = (message) => {
+  const errorModal = document.getElementById('errorModal');
+  const errorMessage = document.getElementById('errorMessage');
+
+  errorMessage.textContent = message;
+  errorModal.style.display = 'block';
+  const closeErrorModal = document.getElementById('closeErrorModal');
+  closeErrorModal.onclick = () => {
+    errorModal.style.display = 'none';
+  };
+  window.onclick = (event) => {
+    if (event.target === errorModal) {
+      errorModal.style.display = 'none';
+    }
+  };
+};
+
+
 export const addProductToServer = async (newProduct) => {
   try {
     const response = await fetch('https://amplified-watery-watch.glitch.me/api/goods', {
@@ -25,15 +43,19 @@ export const addProductToServer = async (newProduct) => {
     const responseData = await response.json();
 
     if (!response.ok) {
-      throw new Error(responseData.message || 'Что-то пошло не так...');
+      const errorMessage = responseData.message || 'Что-то пошло не так...';
+      showErrorModal(errorMessage);
+      throw new Error(errorMessage);
     }
 
     return responseData;
   } catch (error) {
     console.error('Error:', error);
+    showErrorModal('Что-то пошло не так...');
     throw error;
   }
 };
+
 
 export const deleteProductFromServer = async (id) => {
   try {
@@ -52,3 +74,4 @@ export const deleteProductFromServer = async (id) => {
     throw error;
   }
 };
+
