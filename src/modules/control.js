@@ -80,8 +80,15 @@ export const goods = [
 ];
 
 const addGoods = (item) => {
-  goods.push(item);
+  if (item.id) {
+    goods.push(item);
+  } else {
+    // Генерация ID для новых товаров
+    item.id = parseInt(Date.now().toString().slice(-9), 10);
+    goods.push(item);
+  }
 };
+
 
 const removeGoodsById = (id) => {
   const index = goods.findIndex((item) => item.id === id);
@@ -132,15 +139,13 @@ export const productListener = (tbody, data) => {
   elements.modalForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const newProduct = {
-      id: parseInt(Date.now().toString().slice(-9), 10),
+      id: null, // Убираем генерацию ID
       title: elements.modalForm.name.value,
       category: elements.modalForm.category.value,
       price: parseFloat(elements.modalForm.price.value),
       count: parseInt(elements.modalForm.count.value),
       units: elements.modalForm.units.value,
-      discont: elements.modalCheckbox.checked ?
-        parseFloat(elements.modalCheckboxInput.value) :
-        false,
+      discont: elements.modalCheckbox.checked ? parseFloat(elements.modalCheckboxInput.value) : false,
       images: {
         small: '',
         big: '',
