@@ -5,7 +5,7 @@ export const fetchGoods = async () => {
       throw new Error('Ошибка при получении данных: ' + response.statusText);
     }
     const data = await response.json();
-    return data;
+    return data.goods;
   } catch (error) {
     console.error('Ошибка:', error);
     return [];
@@ -28,7 +28,6 @@ const showErrorModal = (message) => {
     }
   };
 };
-
 
 export const addProductToServer = async (newProduct) => {
   try {
@@ -56,7 +55,6 @@ export const addProductToServer = async (newProduct) => {
   }
 };
 
-
 export const deleteProductFromServer = async (id) => {
   try {
     const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${id}`, {
@@ -74,4 +72,3 @@ export const deleteProductFromServer = async (id) => {
     throw error;
   }
 };
-
