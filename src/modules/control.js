@@ -2,8 +2,12 @@ import { fetchGoods, addProductToServer, deleteProductFromServer } from './api.j
 import { getElements } from './elements.js';
 import { getSum } from './calculations.js';
 import { renderGoods, newTotalSum } from './render.js';
+import { showModal } from './modal.js';
 
 const elements = getElements();
+
+const showElements = showModal();
+
 
 const resetModalForm = () => {
   elements.modalForm.reset();
@@ -21,15 +25,15 @@ export const updateTotalPrice = () => {
 
 export const modalListener = () => {
   elements.btnOpenModal.addEventListener('click', () => {
-    elements.modalDisplayFlex.style.display = 'flex';
     resetModalForm();
     updateTotalPrice();
+    showModal();
   });
 
-  elements.modalOverlay.addEventListener('click', (e) => {
+  showElements.overlay.addEventListener('click', (e) => {
     const target = e.target;
-    if (target === elements.modalOverlay || target.closest('.modal__close')) {
-      elements.modalDisplayFlex.style.display = 'none';
+    if (target === showElements.overlay || target.closest('.modal__close')) {
+      showElements.overlay.display = 'none';
     }
   });
 

@@ -1,6 +1,9 @@
+const URL = 'https://amplified-watery-watch.glitch.me/api/goods/';
+
+
 export const fetchGoods = async () => {
   try {
-    const response = await fetch('https://amplified-watery-watch.glitch.me/api/goods/');
+    const response = await fetch(URL);
     if (!response.ok) {
       throw new Error('Ошибка при получении данных: ' + response.statusText);
     }
@@ -31,7 +34,7 @@ const showErrorModal = (message) => {
 
 export const addProductToServer = async (newProduct) => {
   try {
-    const response = await fetch('https://amplified-watery-watch.glitch.me/api/goods', {
+    const response = await fetch(URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -57,7 +60,7 @@ export const addProductToServer = async (newProduct) => {
 
 export const deleteProductFromServer = async (id) => {
   try {
-    const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${id}`, {
+    const response = await fetch(`${URL}${id}`, {
       method: 'DELETE',
     });
 
