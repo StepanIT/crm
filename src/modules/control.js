@@ -82,6 +82,7 @@ export const productListener = async (tbody) => {
     } catch (error) {
       displayErrorMessage(error.message);
     }
+    updateTotalPrice();
   });
 
   tbody.addEventListener('click', async (e) => {
