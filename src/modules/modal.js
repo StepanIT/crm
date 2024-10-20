@@ -1,7 +1,7 @@
 import {loadStyles} from './loadStyle.js';
 
-export const showModal = (err, data) => {
-  loadStyles('css/modal.css');
+export const showModal = async (err, data) => {
+  await loadStyles('css/modal.css');
   const overlay = document.createElement('div');
   const overlayModal = document.createElement('div');
   const modalClose = document.createElement('button');
@@ -138,5 +138,27 @@ export const showModal = (err, data) => {
 
 
   document.body.append(overlay, modalError);
-  return showModal;
+
+  const formModal = document.querySelector('.modal__form');
+
+  const modalCheckbox = formModal.querySelector('.modal__checkbox');
+  const modalCheckboxInput =
+  formModal.querySelector('.modal__input_discount');
+  const modalInputCount = formModal.querySelector('.modal__input_count');
+  const modalInputPrice = formModal.querySelector('.modal__input_price');
+  const modalTotalPrice = formModal.querySelector('.modal__total-price');
+  const modalSubmit = document.querySelector('.modal__submit');
+
+  return {
+    overlay,
+    modalForm,
+    modalTitle,
+    modalCheckbox,
+    modalCheckboxInput,
+    modalTotalPrice,
+    modalInputPrice,
+    modalInputCount,
+    modalSubmit,
+    formModal,
+  };
 };
