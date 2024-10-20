@@ -1,4 +1,5 @@
-export const setDiscount = (discount) => (discount ? (100 - discount) / 100 : 1);
+export const setDiscount = (discount) => (discount ?
+  (100 - discount) / 100 : 1);
 
 export const getSum = (price, count, discount) => {
   if (price <= 0 || count <= 0) return 0;

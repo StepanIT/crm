@@ -1,12 +1,12 @@
 import {getSum} from './calculations.js';
 
 export const createRow =
- ({id, title, category, units, count, price, images, discont}) => {
+ ({id, title, category, units, count, price, images, discount}) => {
    const newTr = document.createElement('tr');
 
    newTr.classList.add('table__body-item');
    newTr.dataset.id = id;
-
+   const totalPrice = getSum(price, count, discount);
    newTr.innerHTML = `
     <td class="table__body-item__ID">${id}</td>
     <td class="table__body-item__name">${title}</td>
@@ -15,7 +15,7 @@ export const createRow =
     <td class="table__body-item__quantity">${count}</td>
     <td class="table__body-item__price">$${price}</td>
     <td class="table__body-item__total">
-    $${getSum(price, count, discont)}</td>
+    $${totalPrice.toFixed(0)}</td>
     <td class="table__body-item-icons">
       <button class="table__body-item-icons__btn btn-image" data-pic="https://blog.100ct.by/wp-content/uploads/2023/02/1-7.webp"">
         <svg width="20" height="20" viewBox="0 0 20 20"
@@ -41,7 +41,7 @@ export const createRow =
           2.50033 3.41858 2.5 3.75V13.75H3.75Z" fill="#6E6893"/>
         </svg>
       </button>
-      <button class="table__body-item-icons__btn">
+      <button class="table__body-item-icons__btn btn-edit">
         <svg width="18" height="19" viewBox="0 0 18 19"
         fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M13.5629 3.86078L15.6394 5.93629L13.5629

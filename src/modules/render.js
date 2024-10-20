@@ -9,6 +9,8 @@ export const renderGoods = (data, tbody) => {
 };
 
 export const newTotalSum = (totalSumElement, data) => {
-  totalSumElement.textContent = `$${getTotalSum(data)}`;
+  const totalPrice = getTotalSum(data);
+  totalSumElement.textContent = `$${totalPrice.toFixed(0)}`;
 };
+
 

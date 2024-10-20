@@ -1,6 +1,5 @@
 const URL = 'https://amplified-watery-watch.glitch.me/api/goods/';
 
-
 export const fetchGoods = async () => {
   try {
     const response = await fetch(URL);

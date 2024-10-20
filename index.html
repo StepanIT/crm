@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,7 @@
         <div class="cms__header">
           <h1 class="cms__title">CMS</h1>
           <p class="cms__total">Итоговая стоимость:
-            <span class="cms__total-price">$ 900.00</span>
+            <span class="cms__total-price">$ 0</span>
           </p>
         </div>
         <div class="cms__products products">
@@ -65,85 +66,5 @@
         </div>
       </div>
     </section>
-
-  <!-- <div class="overlay active">
-    <div class="overlay__modal modal">
-      <button class="modal__close">
-        <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="m2 2 20 20M2 22 22 2" stroke="currentColor" stroke-width="3" stroke-linecap="round" /></svg>
-      </button>
-      <div class="modal_top">
-        <h2 class="modal__title">Добавить товар</h2>
-        <div class="modal__vendor-code">
-          <p class="vendor-code__wrapper">id: <span class="vendor-code__id">201910241</span></p>
-        </div>
-      </div>
-      <form action="https://jsonplaceholder.typicode.com/posts" class="modal__form" method="post">
-        <fieldset class="modal__fieldset">
-          <label class="modal__label modal__label_name" for="name">
-            <span class="modal__text">Наименование</span>
-            <input class="modal__input" type="text" name="name" id="name" required>
-          </label>
-          <label class="modal__label modal__label_category" for="category">
-            <span class="modal__text">Категория</span>
-            <input class="modal__input" type="text" name="category" id="category" required>
-          </label>
-          <label class="modal__label modal__label_description" for="description">
-            <span class="modal__text">Описание</span>
-            <textarea class="modal__input modal__input_textarea" name="description" id="description" required></textarea>
-          </label>
-          <label class="modal__label modal__label_units" for="units">
-            <span class="modal__text">Единицы измерения</span>
-            <input class="modal__input" type="text" name="units" id="units" required>
-          </label>
-          <div class="modal__label modal__label_discount">
-            <label class="modal__text" for="discount">Дисконт</label>
-            <div class="modal__checkbox-wrapper">
-              <input class="modal__checkbox" type="checkbox" name="discount" id="discount">
-              <input class="modal__input modal__input_discount" type="text" name="discount_count" disabled>
-            </div>
-          </div>
-          <label class="modal__label modal__label_count" for="count">
-            <span class="modal__text">Количество</span>
-            <input class="modal__input modal__input_count" type="number" name="count" id="count" required>
-          </label>
-          <label class="modal__label modal__label_price" for="price">
-            <span class="modal__text">Цена</span>
-            <input class="modal__input modal__input_price" type="number" name="price" id="price" required>
-          </label>
-          <label tabindex="0" for="image" class="modal__label modal__label_file">Добавить изображение</label>
-          <input class="modal__file visually-hidden" tabindex="-1" type="file" name="image" id="image">
-        </fieldset>
-        <div class="modal__footer">
-          <label class="modal__total">Итоговая стоимость:
-            <output class="modal__total-price" name="total">$ 900.00</output>
-          </label>
-          <button class="modal__submit" type="submit">Добавить товар</button>
-        </div>
-      </form>
-    </div>
-  </div> -->
-  <div class="modal__error" id="errorModal">
-    <div class="modal__error-content">
-      <div class="modal__error-close" id="closeErrorModal">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 2L22 22" stroke="#6E6893" stroke-width="3" stroke-linecap="round" />
-          <path d="M2 22L22 2" stroke="#6E6893" stroke-width="3" stroke-linecap="round" />
-        </svg>
-      </div>
-      <div class="modal__error-content__block">
-        <p class="modal__error-cross">
-          <svg width="94" height="94" viewBox="0 0 94 94" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 2L92 92" stroke="#D80101" stroke-width="3" stroke-linecap="round" />
-            <path d="M2 92L92 2" stroke="#D80101" stroke-width="3" stroke-linecap="round" />
-          </svg>
-        </p>
-        <p class="modal__error-message" id="errorMessage"></p>
-      </div>
-      
-    </div>
-  </div>
-  
-
   </body>
 </html>
