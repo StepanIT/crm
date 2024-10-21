@@ -176,36 +176,57 @@
   grid-area: file-add;
   position: relative;
   display: none;
+  margin: 0 auto;
   width: 200px;
   height: 200px;
-  margin: 0 auto;
+  overflow: hidden;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.5); /* Полупрозрачное черное затемнение */
+  opacity: 0; /* Скрыть по умолчанию */
+  transition: opacity 0.3s ease; /* Плавный переход */
+  z-index: 1;
+}
+
+.image-container:hover .image-overlay {
+  opacity: 1; /* Показать затемнение при наведении */
+}
+
+.preview {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  max-width: 200px;
+  height: 200px;
 }
 
 .image-container.active {
   display: block;
 }
 
-.image-container:hover:after {
-  content: '';
+.image-back {
+  display: none;
   position: absolute;
   top: 50%;
-  left: calc(50% - 15px);
-  transform: translateX(-50%);
-  transform: rotate(45deg);
-  width: 35px;
-  height: 1px;
-  border: 1px solid black;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
-.image-container:hover:before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: calc(50% - 15px);
-  transform: rotate(135deg);
-  width: 35px;
-  height: 1px;
-  border: 1px solid black;
+.image-container:hover .image-back {
+  display: block;
+  
 }
 
 .modal__label_file:hover {

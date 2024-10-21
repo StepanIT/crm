@@ -118,20 +118,44 @@ export const productListener = async (tbody) => {
     }
   });
 
+  const file = elementsShow.modalInputFile;
+  const preview = elementsShow.imagePreview;
+  console.log(file);
 
-  document.getElementById('file-input').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const previewContainer = document.getElementById('image-preview');
-  
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        previewContainer.style.backgroundImage = `url(${e.target.result})`;
-        previewContainer.classList.add('active');
-      };
-      reader.readAsDataURL(file);
-    }
+
+    
+  const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.addEventListener('loadend', () => {
+      resolve(reader.result);
+    });
+
+    reader.addEventListener('error', err => {
+      reject(err);
+    });
+
+    reader.readAsDataURL(file);
   });
+
+
+  file.addEventListener('change', async () => {
+      if (file.files.length > 0) {
+        const src = URL.createObjectURL(file.files[0]);
+        console.log(src);
+        preview.src = src;
+        preview.style.display = 'block';
+        elementsShow.imageContainer.classList.add('active');
+        const result = await toBase64(file.files[0]);
+        console.log(result);
+      }
+  });
+
+  elementsShow.imageContainer.addEventListener('click', () => {
+    elementsShow.imageContainer.classList.remove('active');
+  });
+
+
 
   document.querySelector('.table__body').addEventListener('click',
       async (e) => {

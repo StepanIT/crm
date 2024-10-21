@@ -75,11 +75,54 @@ export const showModal = async (err, data) => {
             <input class="modal__input modal__input_price"
              type="number" name="price" id="price" required>
           </label>
-          <label tabindex="0" for="image"
-           class="modal__label modal__label_file">Добавить изображение</label>
-          <input class="modal__file visually-hidden"
-           tabindex="-1" type="file" name="image" id="image">
-           <div class="image-container" id="image-preview"></div>
+
+
+
+
+
+
+
+
+
+
+          <label tabindex="0" class="modal__label_file" for="image">
+        Добавить изображение</label>
+
+          <input id="image" tabindex="-1" 
+          type="file" accept="image/*" class="modal__input_file"
+            style="display: none;">
+          
+<button class="image-container" id="image-preview">
+  <div class="image-overlay"></div> <!-- Слой затемнения -->
+  <svg class="image-back" width="24" height="30" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.5334 12.45L12 15.9833L8.45004
+     12.45L6.10004 14.8L9.65004 18.3333L6.11671
+      21.8667L8.46671 24.2167L12 20.6833L15.5334
+       24.2167L17.8834 21.8667L14.35 18.3333L17.8834
+        14.8L15.5334 12.45ZM17.8334 1.66667L16.1667
+         0H7.83337L6.16671 1.66667H0.333374V5H23.6667V1.66667H17.8334ZM2.00004
+          26.6667C2.00004 28.5 3.50004 30 5.33337
+           30H18.6667C20.5
+            30 22 28.5 22 26.6667V6.66667H2.00004V26.6667ZM5.33337
+            10H18.6667V26.6667H5.33337V10Z" fill="white" />
+  </svg>
+  <img class="preview" style="display: none;">
+</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </fieldset>
         <div class="modal__footer">
           <label class="modal__total">Итоговая стоимость:
@@ -149,6 +192,11 @@ export const showModal = async (err, data) => {
   const modalInputPrice = formModal.querySelector('.modal__input_price');
   const modalTotalPrice = formModal.querySelector('.modal__total-price');
   const modalSubmit = document.querySelector('.modal__submit');
+  const modalLabelFile = document.querySelector('.modal__label_file');
+  const modalInputFile = document.querySelector('.modal__input_file');
+  const imageContainer = document.querySelector('.image-container');
+  const imagePreview = document.querySelector('.preview');
+
 
   return {
     overlay,
@@ -161,5 +209,9 @@ export const showModal = async (err, data) => {
     modalInputCount,
     modalSubmit,
     formModal,
+    modalLabelFile,
+    modalInputFile,
+    imageContainer,
+    imagePreview,
   };
 };
