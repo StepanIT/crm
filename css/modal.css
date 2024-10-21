@@ -190,14 +190,14 @@
   transform: translate(-50%, -50%);
   width: 200px;
   height: 200px;
-  background: rgba(0, 0, 0, 0.5); /* Полупрозрачное черное затемнение */
-  opacity: 0; /* Скрыть по умолчанию */
-  transition: opacity 0.3s ease; /* Плавный переход */
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
   z-index: 1;
 }
 
 .image-container:hover .image-overlay {
-  opacity: 1; /* Показать затемнение при наведении */
+  opacity: 1;
 }
 
 .preview {

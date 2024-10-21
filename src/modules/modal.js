@@ -12,7 +12,6 @@ export const showModal = async (err, data) => {
   const vendorCodeId = document.createElement('span');
   const modalForm = document.createElement('form');
 
-
   overlay.classList.add('overlay');
   overlayModal.classList.add('overlay__modal', 'modal');
   modalClose.classList.add('modal__close');
@@ -100,21 +99,6 @@ export const showModal = async (err, data) => {
   </svg>
   <img class="preview" style="display: none;">
 </button>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </fieldset>
         <div class="modal__footer">
           <label class="modal__total">Итоговая стоимость:
@@ -123,7 +107,6 @@ export const showModal = async (err, data) => {
           <button class="modal__submit" type="submit">Добавить товар</button>
         </div>
     `);
-
 
   overlay.append(overlayModal);
   overlayModal.append(modalClose, modalTop, modalForm);
