@@ -181,6 +181,10 @@
   margin: 0 auto;
 }
 
+.image-container.active {
+  display: block;
+}
+
 .image-container:hover:after {
   content: '';
   position: absolute;

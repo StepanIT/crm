@@ -118,6 +118,21 @@ export const productListener = async (tbody) => {
     }
   });
 
+
+  document.getElementById('file-input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const previewContainer = document.getElementById('image-preview');
+  
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewContainer.style.backgroundImage = `url(${e.target.result})`;
+        previewContainer.classList.add('active');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
   document.querySelector('.table__body').addEventListener('click',
       async (e) => {
         const target = e.target;

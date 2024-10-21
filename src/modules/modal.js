@@ -79,6 +79,7 @@ export const showModal = async (err, data) => {
            class="modal__label modal__label_file">Добавить изображение</label>
           <input class="modal__file visually-hidden"
            tabindex="-1" type="file" name="image" id="image">
+           <div class="image-container" id="image-preview"></div>
         </fieldset>
         <div class="modal__footer">
           <label class="modal__total">Итоговая стоимость:
