@@ -229,6 +229,20 @@
   
 }
 
+.image-error {
+  display: none;
+  padding: 8px;
+}
+
+.image-error-text {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #d80101;
+}
+
 .modal__label_file:hover {
   background-color: #6E6893;
 }

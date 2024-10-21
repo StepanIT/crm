@@ -75,28 +75,20 @@ export const showModal = async (err, data) => {
             <input class="modal__input modal__input_price"
              type="number" name="price" id="price" required>
           </label>
-
-
-
-
-
-
-
-
-
-
+      <div class="image-error">
+        <span class="image-error-text">
+        Изображение не должно превышать размер 1 Мб</span>
+      </div>
           <label tabindex="0" class="modal__label_file" for="image">
         Добавить изображение</label>
-
           <input id="image" tabindex="-1" 
           type="file" accept="image/*" class="modal__input_file"
             style="display: none;">
-          
-<button class="image-container" id="image-preview">
-  <div class="image-overlay"></div> <!-- Слой затемнения -->
-  <svg class="image-back" width="24" height="30" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15.5334 12.45L12 15.9833L8.45004
-     12.45L6.10004 14.8L9.65004 18.3333L6.11671
+      <button class="image-container" id="image-preview">
+        <div class="image-overlay"></div>
+        <svg class="image-back" width="24" height="30" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.5334 12.45L12 15.9833L8.45004
+      12.45L6.10004 14.8L9.65004 18.3333L6.11671
       21.8667L8.46671 24.2167L12 20.6833L15.5334
        24.2167L17.8834 21.8667L14.35 18.3333L17.8834
         14.8L15.5334 12.45ZM17.8334 1.66667L16.1667
@@ -196,6 +188,7 @@ export const showModal = async (err, data) => {
   const modalInputFile = document.querySelector('.modal__input_file');
   const imageContainer = document.querySelector('.image-container');
   const imagePreview = document.querySelector('.preview');
+  const imageError = document.querySelector('.image-error');
 
 
   return {
@@ -213,5 +206,6 @@ export const showModal = async (err, data) => {
     modalInputFile,
     imageContainer,
     imagePreview,
+    imageError,
   };
 };

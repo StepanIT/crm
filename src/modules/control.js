@@ -118,12 +118,12 @@ export const productListener = async (tbody) => {
     }
   });
 
+
   const file = elementsShow.modalInputFile;
   const preview = elementsShow.imagePreview;
   console.log(file);
 
 
-    
   const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -140,21 +140,31 @@ export const productListener = async (tbody) => {
 
 
   file.addEventListener('change', async () => {
-      if (file.files.length > 0) {
-        const src = URL.createObjectURL(file.files[0]);
-        console.log(src);
-        preview.src = src;
-        preview.style.display = 'block';
-        elementsShow.imageContainer.classList.add('active');
-        const result = await toBase64(file.files[0]);
-        console.log(result);
+    const maxSizeImg = 1048576;
+
+    if (file.files.length > 0) {
+      const uploadedFile = file.files[0];
+
+      if (uploadedFile.size > maxSizeImg) {
+        elementsShow.imageError.style.display = 'flex';
+        elementsShow.imageContainer.classList.remove('active');
+        return;
       }
+
+      const src = URL.createObjectURL(file.files[0]);
+      console.log(file.files[0]);
+      preview.src = src;
+      preview.style.display = 'block';
+      elementsShow.imageContainer.classList.add('active');
+      elementsShow.imageError.style.display = 'none';
+      const result = await toBase64(file.files[0]);
+      console.log(result);
+    }
   });
 
   elementsShow.imageContainer.addEventListener('click', () => {
     elementsShow.imageContainer.classList.remove('active');
   });
-
 
 
   document.querySelector('.table__body').addEventListener('click',
