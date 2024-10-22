@@ -76,8 +76,55 @@ export const productListener = async (tbody) => {
   newTotalSum(elements.totalSumElement, initialGoods);
 
   if (elementsShow && elementsShow.modalForm) {
+    const file = elementsShow.modalInputFile;
+    const preview = elementsShow.imagePreview;
+
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.addEventListener('loadend', () => {
+        resolve(reader.result);
+      });
+
+      reader.addEventListener('error', err => {
+        reject(err);
+      });
+
+      reader.readAsDataURL(file);
+    });
+
+
+    file.addEventListener('change', async () => {
+      const maxSizeImg = 1048576;
+
+      if (file.files.length > 0) {
+        const uploadedFile = file.files[0];
+
+        if (uploadedFile.size > maxSizeImg) {
+          elementsShow.imageError.style.display = 'flex';
+          elementsShow.imageContainer.classList.remove('active');
+          return;
+        }
+
+        const src = URL.createObjectURL(file.files[0]);
+        preview.src = src;
+        preview.style.display = 'block';
+        elementsShow.imageContainer.classList.add('active');
+        elementsShow.imageError.style.display = 'none';
+        await toBase64(file.files[0]);
+      }
+    });
+
     elementsShow.modalForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const uploadedFile = elementsShow.modalInputFile.files[0];
+      let base64Image = '';
+
+      if (uploadedFile) {
+        base64Image = await toBase64(uploadedFile);
+      }
 
       const newProduct = {
         title: elementsShow.modalForm.name.value,
@@ -87,11 +134,8 @@ export const productListener = async (tbody) => {
         count: parseInt(elementsShow.modalForm.count.value),
         units: elementsShow.modalForm.units.value,
         discount: elementsShow.modalCheckbox.checked ?
-          parseFloat(elementsShow.modalCheckboxInput.value) : false,
-        images: {
-          small: '',
-          big: '',
-        },
+           parseFloat(elementsShow.modalCheckboxInput.value) : false,
+        image: base64Image,
       };
 
       try {
@@ -118,49 +162,6 @@ export const productListener = async (tbody) => {
     }
   });
 
-
-  const file = elementsShow.modalInputFile;
-  const preview = elementsShow.imagePreview;
-  console.log(file);
-
-
-  const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.addEventListener('loadend', () => {
-      resolve(reader.result);
-    });
-
-    reader.addEventListener('error', err => {
-      reject(err);
-    });
-
-    reader.readAsDataURL(file);
-  });
-
-
-  file.addEventListener('change', async () => {
-    const maxSizeImg = 1048576;
-
-    if (file.files.length > 0) {
-      const uploadedFile = file.files[0];
-
-      if (uploadedFile.size > maxSizeImg) {
-        elementsShow.imageError.style.display = 'flex';
-        elementsShow.imageContainer.classList.remove('active');
-        return;
-      }
-
-      const src = URL.createObjectURL(file.files[0]);
-      console.log(file.files[0]);
-      preview.src = src;
-      preview.style.display = 'block';
-      elementsShow.imageContainer.classList.add('active');
-      elementsShow.imageError.style.display = 'none';
-      const result = await toBase64(file.files[0]);
-      console.log(result);
-    }
-  });
 
   elementsShow.imageContainer.addEventListener('click', () => {
     elementsShow.imageContainer.classList.remove('active');
@@ -198,6 +199,18 @@ export const productListener = async (tbody) => {
                 elementsShow.modalCheckboxInput.disabled = true;
                 elementsShow.modalCheckboxInput.value = '';
               }
+
+              const baseUrl = 'https://amplified-watery-watch.glitch.me/';
+              if (product.image) {
+                elementsShow.imagePreview.src = `${baseUrl}${product.image}`;
+                elementsShow.imagePreview.style.display = 'block';
+                elementsShow.imageContainer.classList.add('active');
+              } else {
+                elementsShow.imagePreview.style.display = 'none';
+                elementsShow.imageContainer.classList.remove('active');
+              }
+
+
               updateTotalPrice();
               elementsShow.overlay.style.display = 'flex';
             } else {
