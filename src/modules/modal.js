@@ -74,12 +74,16 @@ export const showModal = async (err, data) => {
             <input class="modal__input modal__input_price"
              type="number" name="price" id="price" required>
           </label>
-      <div class="image-error">
-        <span class="image-error-text">
-        Изображение не должно превышать размер 1 Мб</span>
-      </div>
-          <label tabindex="0" class="modal__label_file" for="image">
+          <div class="modal__form-error">
+          <div class="image-error">
+            <span class="image-error-text">
+              Изображение не должно превышать размер 1 Мб</span>
+          </div>
+          </div>
+                <div class="modal__form-error">
+                <label tabindex="0" class="modal__label_file" for="image">
         Добавить изображение</label>
+                </div>
           <input id="image" tabindex="-1" 
           type="file" accept="image/*" class="modal__input_file"
             style="display: none;">
@@ -172,6 +176,7 @@ export const showModal = async (err, data) => {
   const imageContainer = document.querySelector('.image-container');
   const imagePreview = document.querySelector('.preview');
   const imageError = document.querySelector('.image-error');
+  const modalFormError = document.querySelector('.modal__form-error');
 
 
   return {
@@ -190,5 +195,6 @@ export const showModal = async (err, data) => {
     imageContainer,
     imagePreview,
     imageError,
+    modalFormError,
   };
 };

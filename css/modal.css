@@ -164,6 +164,7 @@
   background: #6D5BD0;
   border-radius: 6px;
   width: 250px;
+  height: 39px;
   padding: 12px;
   display: flex;
   justify-content: center;
@@ -226,18 +227,21 @@
 
 .image-container:hover .image-back {
   display: block;
-  
+}
+
+.modal__form-error {
+  padding-top: 10px;
+  height: 39px;
 }
 
 .image-error {
   display: none;
-  padding: 8px;
+  align-items: center;
 }
 
 .image-error-text {
   font-weight: 700;
   font-size: 14px;
-  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: center;
   color: #d80101;

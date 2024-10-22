@@ -21,12 +21,13 @@ const resetModalForm = () => {
 const activeErrorImg = () => {
   elementsShow.imageError.style.display = 'flex';
   elementsShow.imageContainer.classList.remove('active');
-}
+};
 const activeContainerImg = () => {
   elementsShow.imagePreview.style.display = 'block';
   elementsShow.imageContainer.classList.add('active');
   elementsShow.imageError.style.display = 'none';
-}
+  elementsShow.modalFormError.style.marginBottom = '30px';
+};
 
 export const updateTotalPrice = () => {
   if (elementsShow && elementsShow.modalForm) {
@@ -59,6 +60,12 @@ export const modalListener = async () => {
         elementsShow.overlay.style.display = 'none';
         resetModalForm();
       }
+    });
+
+    elementsShow.imageContainer.addEventListener('click', (e) => {
+      e.preventDefault();
+      elementsShow.imageContainer.classList.remove('active');
+      elementsShow.imagePreview.style.display = 'none';
     });
 
     elementsShow.modalCheckbox.addEventListener('change', () => {
@@ -107,8 +114,6 @@ export const productListener = async (tbody) => {
 
       reader.readAsDataURL(file);
     });
-
-    
 
 
     file.addEventListener('change', async () => {
@@ -176,11 +181,6 @@ export const productListener = async (tbody) => {
   });
 
 
-  elementsShow.imageContainer.addEventListener('click', () => {
-    elementsShow.imageContainer.classList.remove('active');
-  });
-
-
   document.querySelector('.table__body').addEventListener('click',
       async (e) => {
         const target = e.target;
@@ -226,6 +226,7 @@ export const productListener = async (tbody) => {
 
               updateTotalPrice();
               elementsShow.overlay.style.display = 'flex';
+              elementsShow.modalFormError.style.marginBottom = '30px';
             } else {
               throw new Error('Ошибка при получении данных товара');
             }
