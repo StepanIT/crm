@@ -12,8 +12,21 @@ const resetModalForm = () => {
   if (elementsShow && elementsShow.modalForm) {
     elementsShow.modalForm.reset();
     elementsShow.modalTotalPrice.value = '$0';
+    elementsShow.imagePreview.style.display = 'none';
+    elementsShow.imageContainer.classList.remove('active');
+    elementsShow.imageError.style.display = 'none';
   }
 };
+
+const activeErrorImg = () => {
+  elementsShow.imageError.style.display = 'flex';
+  elementsShow.imageContainer.classList.remove('active');
+}
+const activeContainerImg = () => {
+  elementsShow.imagePreview.style.display = 'block';
+  elementsShow.imageContainer.classList.add('active');
+  elementsShow.imageError.style.display = 'none';
+}
 
 export const updateTotalPrice = () => {
   if (elementsShow && elementsShow.modalForm) {
@@ -44,6 +57,7 @@ export const modalListener = async () => {
       if (target === elementsShow.overlay ||
         target.closest('.modal__close')) {
         elementsShow.overlay.style.display = 'none';
+        resetModalForm();
       }
     });
 
@@ -94,6 +108,8 @@ export const productListener = async (tbody) => {
       reader.readAsDataURL(file);
     });
 
+    
+
 
     file.addEventListener('change', async () => {
       const maxSizeImg = 1048576;
@@ -102,16 +118,13 @@ export const productListener = async (tbody) => {
         const uploadedFile = file.files[0];
 
         if (uploadedFile.size > maxSizeImg) {
-          elementsShow.imageError.style.display = 'flex';
-          elementsShow.imageContainer.classList.remove('active');
+          activeErrorImg();
           return;
         }
 
         const src = URL.createObjectURL(file.files[0]);
         preview.src = src;
-        preview.style.display = 'block';
-        elementsShow.imageContainer.classList.add('active');
-        elementsShow.imageError.style.display = 'none';
+        activeContainerImg();
         await toBase64(file.files[0]);
       }
     });
