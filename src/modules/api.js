@@ -14,7 +14,7 @@ export const fetchGoods = async () => {
   }
 };
 
-const showErrorModal = (message) => {
+export const showErrorModal = (message) => {
   const errorModal = document.getElementById('errorModal');
   const errorMessage = document.getElementById('errorMessage');
 

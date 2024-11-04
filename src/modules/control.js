@@ -1,4 +1,4 @@
-import {fetchGoods, addProductToServer, deleteProductFromServer}
+import {fetchGoods, addProductToServer, deleteProductFromServer, showErrorModal}
   from './api.js';
 import {getElements} from './elements.js';
 import {getSum} from './calculations.js';
@@ -7,6 +7,7 @@ import {showModal} from './modal.js';
 
 const elements = getElements();
 let elementsShow;
+
 
 const resetModalForm = () => {
   if (elementsShow && elementsShow.modalForm) {
@@ -41,8 +42,123 @@ export const updateTotalPrice = () => {
   }
 };
 
+const cyrillicAndSpace = (e) => {
+  const input = e.target;
+  const value = input.value;
+  const regex = /^[А-Яа-яЁё\s]*$/;
+
+  if (!regex.test(value)) {
+    input.value = value.replace(/[^А-Яа-яЁё\s]/g, '');
+  }
+};
+
+const preventSpaceInput = (e) => {
+  if (e.key === ' ') {
+    e.preventDefault();
+  }
+};
+
+const validateCyrillic = (e) => {
+  const input = e.target;
+  const value = input.value;
+
+  const validCyrillic = /^[а-яА-ЯёЁ]*$/;
+
+
+  if (!validCyrillic.test(value)) {
+    input.value = value.replace(/[^а-яА-ЯёЁ\s]/g, '');
+  }
+};
+
+const validateNumber = (e) => {
+  const input = e.target;
+  const value = input.value;
+
+  input.value = value.replace(/[^0-9]/g, '');
+};
+
 export const modalListener = async () => {
   elementsShow = await showModal();
+  if (!elementsShow || !elementsShow.modalForm) {
+    console.error('elementsShow или modalForm не инициализированы');
+  }
+
+  const modalName = elementsShow.modalForm.name;
+  const modalCategory = elementsShow.modalForm.category;
+  const modalDescription = elementsShow.modalForm.description;
+  const modalCount = elementsShow.modalForm.count;
+  const modalDiscount = elementsShow.modalCheckboxInput;
+  const modalPrice = elementsShow.modalInputPrice;
+
+  const validateForm = () => {
+    const nameFilled = modalName.value.trim() !== '';
+    const categoryFilled = modalCategory.value.trim() !== '';
+    const descriptionFilled = modalDescription.value.trim().length >= 80;
+    const quantityFilled = modalCount.value.trim() !== '';
+    const priceFilled = modalPrice.value.trim() !== '';
+
+    return (
+      nameFilled &&
+      categoryFilled &&
+      descriptionFilled &&
+      quantityFilled &&
+      priceFilled
+    );
+  };
+
+  if (modalName) {
+    modalName.addEventListener('input', cyrillicAndSpace);
+  }
+  if (modalCategory) {
+    modalCategory.addEventListener('input', cyrillicAndSpace);
+  }
+  if (modalDescription) {
+    modalDescription.addEventListener('input', cyrillicAndSpace);
+  }
+
+  if (!elementsShow || !elementsShow.modalForm) {
+    console.error('elementsShow или modalForm не инициализированы');
+    return;
+  }
+
+  const modalUnits = elementsShow.modalForm.units;
+
+  if (modalUnits) {
+    modalUnits.addEventListener('keydown', preventSpaceInput);
+    modalUnits.addEventListener('input', validateCyrillic);
+  }
+
+
+  if (!elementsShow || !elementsShow.modalForm) {
+    console.error('elementsShow или modalForm не инициализированы');
+    return;
+  }
+
+
+  if (modalCount) {
+    modalCount.addEventListener('input', validateNumber);
+  } else {
+    console.error('Поле количества не найдено');
+  }
+
+  if (modalDiscount) {
+    modalDiscount.addEventListener('input', validateNumber);
+  } else {
+    console.error('Поле дисконта не найдено');
+  }
+
+  if (modalPrice) {
+    modalPrice.addEventListener('input', validateNumber);
+  }
+
+
+  elementsShow.submit.addEventListener('click', (e) => {
+    if (!validateForm()) {
+      e.preventDefault();
+      showErrorModal(`Описание должно содержать минимум 80 символов.`);
+      return;
+    }
+  });
 
   elements.btnOpenModal.addEventListener('click', () => {
     if (elementsShow) {
@@ -91,10 +207,12 @@ const displayErrorMessage = (message) => {
   }
 };
 
+
 export const productListener = async (tbody) => {
   const initialGoods = await fetchGoods();
   renderGoods(initialGoods, tbody);
   newTotalSum(elements.totalSumElement, initialGoods);
+
 
   if (elementsShow && elementsShow.modalForm) {
     const file = elementsShow.modalInputFile;
@@ -136,6 +254,7 @@ export const productListener = async (tbody) => {
 
     elementsShow.modalForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
 
       const uploadedFile = elementsShow.modalInputFile.files[0];
       let base64Image = '';

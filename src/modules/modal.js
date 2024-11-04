@@ -61,7 +61,7 @@ export const showModal = async (err, data) => {
               <input class="modal__checkbox" type="checkbox"
                name="discount" id="discount">
               <input class="modal__input modal__input_discount"
-               type="text" name="discount_count" disabled>
+               type="text" name="discount_count" id="discount_count" disabled>
             </div>
           </div>
           <label class="modal__label modal__label_count" for="count">
@@ -108,7 +108,8 @@ export const showModal = async (err, data) => {
           <label class="modal__total">Итоговая стоимость:
             <output class="modal__total-price" name="total">$ 0</output>
           </label>
-          <button class="modal__submit" type="submit">Добавить товар</button>
+          <button class="modal__submit" id="modal__submit"
+           type="submit">Добавить товар</button>
         </div>
     `);
 
@@ -177,6 +178,7 @@ export const showModal = async (err, data) => {
   const imagePreview = document.querySelector('.preview');
   const imageError = document.querySelector('.image-error');
   const modalFormError = document.querySelector('.modal__form-error');
+  const submit = document.getElementById('modal__submit');
 
 
   return {
@@ -196,5 +198,6 @@ export const showModal = async (err, data) => {
     imagePreview,
     imageError,
     modalFormError,
+    submit,
   };
 };
