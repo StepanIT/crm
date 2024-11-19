@@ -295,19 +295,30 @@ export const productListener = async (tbody) => {
     if (target.closest('.btn-image')) {
       const row = target.closest('.table__body-item');
       const productId = row.dataset.id;
-
-      const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${productId}`);
-      if (response.ok) {
-        const product = await response.json();
-
-        const baseUrl = 'https://amplified-watery-watch.glitch.me/';
-        const imgUrl = `${baseUrl}${product.image}`;
-        
-        open(imgUrl, '', `width=600,height=600,top=${(screen.height - 700) / 2},
-      left=${(screen.width - 700) / 2}`);
+  
+      try {
+        const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${productId}`);
+        if (response.ok) {
+          const product = await response.json();
+  
+          const baseUrl = 'https://amplified-watery-watch.glitch.me/';
+          const imgUrl = `${baseUrl}${product.image}`;
+  
+          if (product.image && product.image !== 'image/notimage.jpg') {
+            open(imgUrl, '', `width=600,height=600,top=${(screen.height - 700) / 2}, left=${(screen.width - 700) / 2}`);
+          } else {
+            const imgStub = target.closest('.btn-image').dataset.pic;
+            open(imgStub, '', `width=600,height=600,top=${(screen.height - 700) / 2}, left=${(screen.width - 700) / 2}`);
+          }
+        } else {
+          console.error('Ошибка при получении данных товара.');
+        }
+      } catch (error) {
+        console.error('Ошибка при выполнении запроса:', error);
       }
     }
   });
+  
   
 
 
@@ -319,6 +330,7 @@ export const productListener = async (tbody) => {
           const id = row.dataset.id;
           try {
             const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${id}`);
+            console.log(response);
             if (response.ok) {
               const product = await response.json();
 
@@ -344,7 +356,8 @@ export const productListener = async (tbody) => {
               }
 
               const baseUrl = 'https://amplified-watery-watch.glitch.me/';
-              if (product.image) {
+              console.log(baseUrl);
+              if (product.image && product.image !== 'image/notimage.jpg') {
                 elementsShow.imagePreview.src = `${baseUrl}${product.image}`;
                 elementsShow.imagePreview.style.display = 'block';
                 elementsShow.imageContainer.classList.add('active');
