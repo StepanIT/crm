@@ -17,7 +17,8 @@ export const createRow =
     <td class="table__body-item__total">
     $${totalPrice.toFixed(0)}</td>
     <td class="table__body-item-icons">
-      <button class="table__body-item-icons__btn btn-image" data-pic="../../img/not-image.png">
+      <button class="table__body-item-icons__btn btn-image"
+       data-pic="../../img/not-image.png">
         <svg width="20" height="20" viewBox="0 0 20 20"
         fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18.75 2.13375L17.8663 1.25L1.25

@@ -9,7 +9,6 @@ export const fetchGoods = async () => {
       throw new Error('Ошибка при получении данных: ' + response.statusText);
     }
     const data = await response.json();
-    console.log(data.goods);
     return data.goods;
   } catch (error) {
     console.error('Ошибка:', error);
@@ -90,4 +89,40 @@ export const fetchGoodsWithSearch = async (query) => {
   } catch (error) {
     console.error('Ошибка:', error);
   }
+};
+
+const fetchCategories = async () => {
+  try {
+    const response = await fetch('https://amplified-watery-watch.glitch.me/api/categories/');
+    if (!response.ok) {
+      throw new Error(`Ошибка: ${response.status}`);
+    }
+    const categories = await response.json();
+    return categories;
+  } catch (error) {
+    console.error('Ошибка загрузки категорий:', error);
+    return [];
+  }
+};
+
+export const populateDatalist = async () => {
+  const categoryList = document.getElementById('category-list');
+
+  if (!categoryList) {
+    console.error('Элемент с ID "category-list" не найден.');
+    return;
+  }
+
+  const categories = await fetchCategories();
+
+  if (categories.length === 0) {
+    console.warn('Категории не найдены.');
+    return;
+  }
+
+  categories.forEach((category) => {
+    const option = document.createElement('option');
+    option.value = category;
+    categoryList.append(option);
+  });
 };

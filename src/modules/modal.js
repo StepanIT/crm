@@ -1,3 +1,4 @@
+import { populateDatalist } from './api.js';
 import {loadStyles} from './loadStyle.js';
 
 export const showModal = async (err, data) => {
@@ -42,8 +43,10 @@ export const showModal = async (err, data) => {
           <label class="modal__label modal__label_category" for="category">
             <span class="modal__text">Категория</span>
             <input class="modal__input" type="text"
-             name="category" id="category" required>
+             name="category" id="category" list="category-list" required>
           </label>
+          <datalist id="category-list">
+          </datalist>
           <label class="modal__label modal__label_description"
            for="description">
             <span class="modal__text">Описание</span>
@@ -162,6 +165,7 @@ export const showModal = async (err, data) => {
 
 
   document.body.append(overlay, modalError);
+  await populateDatalist();
 
   const formModal = document.querySelector('.modal__form');
 

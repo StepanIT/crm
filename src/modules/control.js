@@ -1,4 +1,8 @@
-import {fetchGoods, addProductToServer, deleteProductFromServer, showErrorModal, fetchGoodsWithSearch}
+import {fetchGoods,
+  addProductToServer,
+  deleteProductFromServer,
+  showErrorModal,
+  fetchGoodsWithSearch}
   from './api.js';
 import {getElements} from './elements.js';
 import {getSum} from './calculations.js';
@@ -290,36 +294,39 @@ export const productListener = async (tbody) => {
     });
   }
 
-  document.querySelector('.table__body').addEventListener('click', async (e) => {
-    const target = e.target;
-    if (target.closest('.btn-image')) {
-      const row = target.closest('.table__body-item');
-      const productId = row.dataset.id;
-  
-      try {
-        const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${productId}`);
-        if (response.ok) {
-          const product = await response.json();
-  
-          const baseUrl = 'https://amplified-watery-watch.glitch.me/';
-          const imgUrl = `${baseUrl}${product.image}`;
-  
-          if (product.image && product.image !== 'image/notimage.jpg') {
-            open(imgUrl, '', `width=600,height=600,top=${(screen.height - 700) / 2}, left=${(screen.width - 700) / 2}`);
-          } else {
-            const imgStub = target.closest('.btn-image').dataset.pic;
-            open(imgStub, '', `width=600,height=600,top=${(screen.height - 700) / 2}, left=${(screen.width - 700) / 2}`);
+  document.querySelector('.table__body')
+      .addEventListener('click', async (e) => {
+        const target = e.target;
+        if (target.closest('.btn-image')) {
+          const row = target.closest('.table__body-item');
+          const productId = row.dataset.id;
+
+          try {
+            const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${productId}`);
+            if (response.ok) {
+              const product = await response.json();
+
+              const baseUrl = 'https://amplified-watery-watch.glitch.me/';
+              const imgUrl = `${baseUrl}${product.image}`;
+
+              if (product.image && product.image !== 'image/notimage.jpg') {
+                open(imgUrl, '', `width=600,
+                  height=600,top=${(screen.height - 700) / 2},
+               left=${(screen.width - 700) / 2}`);
+              } else {
+                const imgStub = target.closest('.btn-image').dataset.pic;
+                open(imgStub, '', `width=600,
+                  height=600,top=${(screen.height - 700) / 2},
+               left=${(screen.width - 700) / 2}`);
+              }
+            } else {
+              console.error('Ошибка при получении данных товара.');
+            }
+          } catch (error) {
+            console.error('Ошибка при выполнении запроса:', error);
           }
-        } else {
-          console.error('Ошибка при получении данных товара.');
         }
-      } catch (error) {
-        console.error('Ошибка при выполнении запроса:', error);
-      }
-    }
-  });
-  
-  
+      });
 
 
   document.querySelector('.table__body').addEventListener('click',
@@ -424,7 +431,8 @@ export const updateTable = (goods) => {
     <td class="table__body-item__price">$${good.price}</td>
     <td class="table__body-item__total">$${totalPrice.toFixed(0)}</td>
     <td class="table__body-item-icons">
-      <button class="table__body-item-icons__btn btn-image" data-pic="../../img/not-image.png">
+      <button class="table__body-item-icons__btn btn-image"
+       data-pic="../../img/not-image.png">
         <svg width="20" height="20" viewBox="0 0 20 20"
         fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18.75 2.13375L17.8663 1.25L1.25
