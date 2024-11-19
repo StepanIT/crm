@@ -1,4 +1,4 @@
-import {fetchGoods, addProductToServer, deleteProductFromServer, showErrorModal}
+import {fetchGoods, addProductToServer, deleteProductFromServer, showErrorModal, fetchGoodsWithSearch}
   from './api.js';
 import {getElements} from './elements.js';
 import {getSum} from './calculations.js';
@@ -404,3 +404,30 @@ export const productListener = async (tbody) => {
     }
   });
 };
+
+const searchInput = document.querySelector('.panel__input');
+const tableBody = document.querySelector('.table__body');
+
+export const updateTable = (goods) => {
+  tableBody.innerHTML = '';
+
+  goods.forEach((good) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td class="cell-id">${good.id}</td>
+      <td class="cell-name">${good.name}</td>
+      <td class="cell-category">${good.category}</td>
+      <td class="cell-units">${good.units}</td>
+      <td class="cell-quantity">${good.quantity}</td>
+      <td class="cell-price">${good.price}</td>
+      <td class="cell-total">${good.total}</td>
+      <td class="cell-empty"></td>
+    `;
+    tableBody.appendChild(row);
+  });
+};
+
+searchInput.addEventListener('input', (event) => {
+  const query = event.target.value;
+  fetchGoodsWithSearch(query);
+});

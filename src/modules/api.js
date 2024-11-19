@@ -1,3 +1,5 @@
+import {updateTable} from './control.js';
+
 const URL = 'https://amplified-watery-watch.glitch.me/api/goods/';
 
 export const fetchGoods = async () => {
@@ -73,5 +75,19 @@ export const deleteProductFromServer = async (id) => {
   } catch (error) {
     console.error('Error deleting product:', error);
     throw error;
+  }
+};
+
+export const fetchGoodsWithSearch = async (query) => {
+  const url = `https://amplified-watery-watch.glitch.me/api/goods?search=${encodeURIComponent(query)}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Ошибка при получении данных');
+    }
+    const data = await response.json();
+    updateTable(data.goods);
+  } catch (error) {
+    console.error('Ошибка:', error);
   }
 };
