@@ -290,14 +290,25 @@ export const productListener = async (tbody) => {
     });
   }
 
-  document.querySelector('.table__body').addEventListener('click', e => {
+  document.querySelector('.table__body').addEventListener('click', async (e) => {
     const target = e.target;
     if (target.closest('.btn-image')) {
-      const imgUrl = target.closest('.btn-image').dataset.pic;
-      open(imgUrl, '', `width=600,height=600,top=${(screen.height - 700) / 2},
-        left=${(screen.width - 700) / 2}`);
+      const row = target.closest('.table__body-item');
+      const productId = row.dataset.id;
+
+      const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${productId}`);
+      if (response.ok) {
+        const product = await response.json();
+
+        const baseUrl = 'https://amplified-watery-watch.glitch.me/';
+        const imgUrl = `${baseUrl}${product.image}`;
+        
+        open(imgUrl, '', `width=600,height=600,top=${(screen.height - 700) / 2},
+      left=${(screen.width - 700) / 2}`);
+      }
     }
   });
+  
 
 
   document.querySelector('.table__body').addEventListener('click',

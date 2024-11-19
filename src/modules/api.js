@@ -7,6 +7,7 @@ export const fetchGoods = async () => {
       throw new Error('Ошибка при получении данных: ' + response.statusText);
     }
     const data = await response.json();
+    console.log(data.goods);
     return data.goods;
   } catch (error) {
     console.error('Ошибка:', error);
