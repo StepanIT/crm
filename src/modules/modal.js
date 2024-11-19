@@ -1,4 +1,4 @@
-import { populateDatalist } from './api.js';
+import {populateDatalist} from './api.js';
 import {loadStyles} from './loadStyle.js';
 
 export const showModal = async (err, data) => {
@@ -165,7 +165,7 @@ export const showModal = async (err, data) => {
 
 
   document.body.append(overlay, modalError);
-  await populateDatalist();
+
 
   const formModal = document.querySelector('.modal__form');
 
@@ -183,7 +183,7 @@ export const showModal = async (err, data) => {
   const imageError = document.querySelector('.image-error');
   const modalFormError = document.querySelector('.modal__form-error');
   const submit = document.getElementById('modal__submit');
-
+  populateDatalist();
 
   return {
     overlay,
