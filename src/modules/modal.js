@@ -113,6 +113,8 @@ export const showModal = async (err, data) => {
           </label>
           <button class="modal__submit" id="modal__submit"
            type="submit">Добавить товар</button>
+          <button class="modal__edit" id="modal__edit"
+           type="submit">Добавить товар</button>
         </div>
     `);
 
@@ -183,6 +185,7 @@ export const showModal = async (err, data) => {
   const imageError = document.querySelector('.image-error');
   const modalFormError = document.querySelector('.modal__form-error');
   const submit = document.getElementById('modal__submit');
+  const editCard = document.getElementById('modal__edit');
   populateDatalist();
 
   return {
@@ -203,5 +206,6 @@ export const showModal = async (err, data) => {
     imageError,
     modalFormError,
     submit,
+    editCard,
   };
 };

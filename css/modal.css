@@ -369,6 +369,19 @@
   color: #FFFFFF;
 }
 
+.modal__edit {
+  display: none;
+  font-weight: 600;
+  padding: 10px 25px;
+  font-size: 16px;
+  border: none;
+  line-height: 19px;
+  text-transform: uppercase;
+  background: #6D5BD0;
+  border-radius: 6px;
+  color: #FFFFFF;
+}
+
 .modal__submit:hover {
   background-color: #6E6893;
 }

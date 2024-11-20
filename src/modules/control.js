@@ -345,6 +345,11 @@ export const productListener = async (tbody) => {
         if (target.closest('.btn-edit')) {
           const row = target.closest('.table__body-item');
           const id = row.dataset.id;
+          elementsShow.modalForm.dataset.id = id;
+
+          elementsShow.submit.style.display = 'none';
+          elementsShow.editCard.style.display = 'block';
+
           try {
             const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${id}`);
             console.log(response);
@@ -396,6 +401,46 @@ export const productListener = async (tbody) => {
           }
         }
       });
+
+  elementsShow.editCard.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const id = elementsShow.modalForm.dataset.id;
+    if (!id) {
+      console.error('ID товара не найден');
+      return;
+    }
+
+    const updatedData = {
+      title: elementsShow.modalForm.name.value,
+      category: elementsShow.modalForm.category.value,
+      price: parseFloat(elementsShow.modalForm.price.value),
+      description: elementsShow.modalForm.description.value,
+      count: parseInt(elementsShow.modalForm.count.value),
+      units: elementsShow.modalForm.units.value,
+      discount: elementsShow.modalCheckbox.checked ?
+           parseFloat(elementsShow.modalCheckboxInput.value) : false,
+    };
+
+    try {
+      const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${id}`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) throw new Error('Ошибка обновления товара');
+
+      const updatedGoods = await fetchGoods();
+      renderGoods(updatedGoods, tbody);
+      newTotalSum(elements.totalSumElement, updatedGoods);
+
+      elementsShow.overlay.style.display = 'none';
+    } catch (error) {
+      console.error('Ошибка обновления товара:', error);
+      showErrorModal('Не удалось обновить товар, попробуйте снова.');
+    }
+  });
+
 
   tbody.addEventListener('click', async (e) => {
     const target = e.target;
