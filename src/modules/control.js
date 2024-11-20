@@ -404,40 +404,89 @@ export const productListener = async (tbody) => {
 
   elementsShow.editCard.addEventListener('click', async (e) => {
     e.preventDefault();
-    const id = elementsShow.modalForm.dataset.id;
-    if (!id) {
-      console.error('ID товара не найден');
-      return;
-    }
 
-    const updatedData = {
-      title: elementsShow.modalForm.name.value,
-      category: elementsShow.modalForm.category.value,
-      price: parseFloat(elementsShow.modalForm.price.value),
-      description: elementsShow.modalForm.description.value,
-      count: parseInt(elementsShow.modalForm.count.value),
-      units: elementsShow.modalForm.units.value,
-      discount: elementsShow.modalCheckbox.checked ?
-           parseFloat(elementsShow.modalCheckboxInput.value) : false,
-    };
+    if (elementsShow && elementsShow.modalForm) {
+      const file = elementsShow.modalInputFile;
+      const preview = elementsShow.imagePreview;
 
-    try {
-      const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${id}`, {
-        method: 'PATCH',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(updatedData),
+
+      const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.addEventListener('loadend', () => {
+          resolve(reader.result);
+        });
+
+        reader.addEventListener('error', err => {
+          reject(err);
+        });
+
+        reader.readAsDataURL(file);
       });
 
-      if (!response.ok) throw new Error('Ошибка обновления товара');
 
-      const updatedGoods = await fetchGoods();
-      renderGoods(updatedGoods, tbody);
-      newTotalSum(elements.totalSumElement, updatedGoods);
+      file.addEventListener('change', async () => {
+        const maxSizeImg = 1048576;
 
-      elementsShow.overlay.style.display = 'none';
-    } catch (error) {
-      console.error('Ошибка обновления товара:', error);
-      showErrorModal('Не удалось обновить товар, попробуйте снова.');
+        if (file.files.length > 0) {
+          const uploadedFile = file.files[0];
+
+          if (uploadedFile.size > maxSizeImg) {
+            activeErrorImg();
+            return;
+          }
+
+          const src = URL.createObjectURL(file.files[0]);
+          preview.src = src;
+          activeContainerImg();
+          await toBase64(file.files[0]);
+        }
+      });
+
+      const uploadedFile = elementsShow.modalInputFile.files[0];
+      let base64Image = '';
+
+      if (uploadedFile) {
+        base64Image = await toBase64(uploadedFile);
+      }
+
+
+      const id = elementsShow.modalForm.dataset.id;
+      if (!id) {
+        console.error('ID товара не найден');
+        return;
+      }
+
+      const updatedData = {
+        title: elementsShow.modalForm.name.value,
+        category: elementsShow.modalForm.category.value,
+        price: parseFloat(elementsShow.modalForm.price.value),
+        description: elementsShow.modalForm.description.value,
+        count: parseInt(elementsShow.modalForm.count.value),
+        units: elementsShow.modalForm.units.value,
+        discount: elementsShow.modalCheckbox.checked ?
+           parseFloat(elementsShow.modalCheckboxInput.value) : false,
+        image: base64Image,
+      };
+
+      try {
+        const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${id}`, {
+          method: 'PATCH',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(updatedData),
+        });
+
+        if (!response.ok) throw new Error('Ошибка обновления товара');
+
+        const updatedGoods = await fetchGoods();
+        renderGoods(updatedGoods, tbody);
+        newTotalSum(elements.totalSumElement, updatedGoods);
+
+        elementsShow.overlay.style.display = 'none';
+      } catch (error) {
+        console.error('Ошибка обновления товара:', error);
+        showErrorModal('Не удалось обновить товар, попробуйте снова.');
+      }
     }
   });
 
