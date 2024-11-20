@@ -34,6 +34,16 @@ const activeContainerImg = () => {
   elementsShow.modalFormError.style.marginBottom = '30px';
 };
 
+export const updateProductIcon = (productRow, imageUrl) => {
+  const svgImage = productRow.querySelector('.svg-image');
+  const svgNotImage = productRow.querySelector('.svg-not_image');
+
+  if (imageUrl === 'image/notimage.jpg' || !imageUrl) {
+    svgImage.style.display = 'none';
+    svgNotImage.style.display = 'block';
+  }
+};
+
 export const updateTotalPrice = () => {
   if (elementsShow && elementsShow.modalForm) {
     elementsShow.modalForm.addEventListener('change', () => {
@@ -518,3 +528,4 @@ searchInput.addEventListener('input', (event) => {
     fetchGoodsWithSearch(query);
   }, 300);
 });
+

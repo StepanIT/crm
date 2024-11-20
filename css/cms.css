@@ -213,6 +213,10 @@
   text-align: right;
 }
 
+.svg-not_image {
+  display: none;
+}
+
 .table__body-item-icons {
   width: 135px;
   display: flex;
