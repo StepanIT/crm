@@ -410,51 +410,6 @@ export const productListener = async (tbody) => {
     e.preventDefault();
 
     if (elementsShow && elementsShow.modalForm) {
-      const file = elementsShow.modalInputFile;
-      const preview = elementsShow.imagePreview;
-
-
-      const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        reader.addEventListener('loadend', () => {
-          resolve(reader.result);
-        });
-
-        reader.addEventListener('error', err => {
-          reject(err);
-        });
-
-        reader.readAsDataURL(file);
-      });
-
-
-      file.addEventListener('change', async () => {
-        const maxSizeImg = 1048576;
-
-        if (file.files.length > 0) {
-          const uploadedFile = file.files[0];
-
-          if (uploadedFile.size > maxSizeImg) {
-            activeErrorImg();
-            return;
-          }
-
-          const src = URL.createObjectURL(file.files[0]);
-          preview.src = src;
-          activeContainerImg();
-          await toBase64(file.files[0]);
-        }
-      });
-
-      const uploadedFile = elementsShow.modalInputFile.files[0];
-      let base64Image = '';
-
-      if (uploadedFile) {
-        base64Image = await toBase64(uploadedFile);
-      }
-
-
       const id = elementsShow.modalForm.dataset.id;
       if (!id) {
         console.error('ID товара не найден');
@@ -470,7 +425,7 @@ export const productListener = async (tbody) => {
         units: elementsShow.modalForm.units.value,
         discount: elementsShow.modalCheckbox.checked ?
            parseFloat(elementsShow.modalCheckboxInput.value) : false,
-        image: base64Image,
+        image: elementsShow.imagePreview.src.value,
       };
 
       try {
