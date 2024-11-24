@@ -3,6 +3,9 @@ import {loadStyles} from './loadStyle.js';
 
 export const showModal = async (err, data) => {
   await loadStyles('css/modal.css');
+
+  // const productId = `${Math.floor(Math.random() * 10000000000)}`;
+
   const overlay = document.createElement('div');
   const overlayModal = document.createElement('div');
   const modalClose = document.createElement('button');
@@ -27,9 +30,9 @@ export const showModal = async (err, data) => {
   modalTitle.textContent = 'Добавить товар';
   modalVendorCode.classList.add('modal__vendor-code');
   vendorCodeWrapper.classList.add('vendor-code__wrapper');
-  vendorCodeWrapper.textContent = 'id:';
+  vendorCodeWrapper.textContent = '';
   vendorCodeId.classList.add('vendor-code__id');
-  vendorCodeId.textContent = '201910241';
+  vendorCodeId.textContent = '';
 
 
   modalForm.classList.add('modal__form');
@@ -207,5 +210,6 @@ export const showModal = async (err, data) => {
     modalFormError,
     submit,
     editCard,
+    vendorCodeId,
   };
 };

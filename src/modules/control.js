@@ -15,6 +15,7 @@ let elementsShow;
 
 const resetModalForm = () => {
   if (elementsShow && elementsShow.modalForm) {
+    elementsShow.vendorCodeId.textContent = '';
     elementsShow.modalForm.reset();
     elementsShow.modalTotalPrice.value = '$0';
     elementsShow.imagePreview.style.display = 'none';
@@ -352,10 +353,11 @@ export const productListener = async (tbody) => {
 
           try {
             const response = await fetch(`https://amplified-watery-watch.glitch.me/api/goods/${id}`);
-            console.log(response);
             if (response.ok) {
               const product = await response.json();
 
+
+              elementsShow.vendorCodeId.textContent = 'ID:' + product.id;
               elementsShow.modalForm.name.value = product.title;
               elementsShow.modalForm.category.value = product.category;
               elementsShow.modalForm.price.value = product.price;
